@@ -54,3 +54,6 @@ if (verbose):
 
 # restore directory
 os.chdir (prevdir)
+
+if failed > 0 or passed == 0:
+    sys.exit(1)
