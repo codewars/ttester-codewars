@@ -35,6 +35,6 @@ variable DIFFERENCES
       then
     then
   else
-    failed# ." Wrong number of results, expected " ACTUAL-DEPTH @ . ." , got " depth . cr EMPTY-STACK
+    failed# ." Wrong number of results, expected " depth START-DEPTH @ - . ." , got " ACTUAL-DEPTH @ START-DEPTH @ - . cr EMPTY-STACK
   then
   F} ;
