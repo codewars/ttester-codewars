@@ -29,12 +29,12 @@ variable DIFFERENCES
         ." , got "
         RESULTS @ 0 do ACTUAL-RESULTS i cells + @ . loop
         cr
-        EMPTY-STACK
       else
         passed# ." Test Passed" cr
       then
     then
   else
-    failed# ." Wrong number of results, expected " depth START-DEPTH @ - . ." , got " ACTUAL-DEPTH @ START-DEPTH @ - . cr EMPTY-STACK
+    failed# ." Wrong number of results, expected " depth START-DEPTH @ - . ." , got " ACTUAL-DEPTH @ START-DEPTH @ - . cr
   then
+  EMPTY-STACK
   F} ;
