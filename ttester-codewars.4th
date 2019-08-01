@@ -38,3 +38,5 @@ variable DIFFERENCES
   then
   EMPTY-STACK
   F} ;
+
+: s# { c-addr u -- hash } 1000000009 { m } 0 1 c-addr u 0 +do { hash p s } s c@ p * hash + m mod p 53 * m mod s char+ loop 2drop ;

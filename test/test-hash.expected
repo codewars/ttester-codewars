@@ -1,0 +1,20 @@
+
+<DESCRIBE::>string hash
+
+<IT::>short strings
+
+<PASSED::>Test Passed
+
+<PASSED::>Test Passed
+
+<COMPLETEDIN::>0.098 ms
+
+<IT::>failing compares
+
+<FAILED::>Expected 431880812 , got 390772129 
+
+<FAILED::>Expected 143064460 , got 431880812 
+
+<COMPLETEDIN::>0.118 ms
+
+<COMPLETEDIN::>0.258 ms
