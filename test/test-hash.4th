@@ -8,4 +8,8 @@ s" string hash" describe#{
     <{ s" Hello World!" s# -> s" Hello Worlds!" s# }>
     <{ s" Hello Worlds!" s# -> s" Hello Worlds! " s# }>
   }#
+  s" failing compares with custom messages" it#{
+    <{ s" Hello World!" 2dup ." Actual: '" type ." '" s# -> s" Hello Worlds!" 2dup ." , Expected: '" type ." '" s# }>
+    <{ s" Hello Worlds!" 2dup ." Actual: '" type ." '" s# -> s" Hello Worlds! " 2dup ." , Expected: '" type ." '" s# }>
+  }#
 }#
