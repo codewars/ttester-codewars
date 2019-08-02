@@ -7,7 +7,7 @@
 
 <PASSED::>Test Passed
 
-<COMPLETEDIN::>0.211 ms
+<COMPLETEDIN::>0.125 ms
 
 <IT::>failing compares
 
@@ -15,14 +15,6 @@
 
 <FAILED::>Expected 1589968543 , got 1266463317 
 
-<COMPLETEDIN::>0.206 ms
+<COMPLETEDIN::>0.124 ms
 
-<IT::>failing compares with custom messages
-Actual: 'Hello World!', Expected: 'Hello Worlds!'
-<FAILED::>Expected 1266463317 , got 610024131 
-Actual: 'Hello Worlds!', Expected: 'Hello Worlds! '
-<FAILED::>Expected 1589968543 , got 1266463317 
-
-<COMPLETEDIN::>0.344 ms
-
-<COMPLETEDIN::>0.864 ms
+<COMPLETEDIN::>0.292 ms
