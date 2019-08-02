@@ -7,22 +7,22 @@
 
 <PASSED::>Test Passed
 
-<COMPLETEDIN::>0.081 ms
+<COMPLETEDIN::>0.211 ms
 
 <IT::>failing compares
 
-<FAILED::>Expected 1138466699 , got 297433350 
+<FAILED::>Expected 1266463317 , got 610024131 
 
-<FAILED::>Expected 1662069178 , got 1138466699 
+<FAILED::>Expected 1589968543 , got 1266463317 
 
-<COMPLETEDIN::>0.118 ms
+<COMPLETEDIN::>0.206 ms
 
 <IT::>failing compares with custom messages
 Actual: 'Hello World!', Expected: 'Hello Worlds!'
-<FAILED::>Expected 1138466699 , got 297433350 
+<FAILED::>Expected 1266463317 , got 610024131 
 Actual: 'Hello Worlds!', Expected: 'Hello Worlds! '
-<FAILED::>Expected 1662069178 , got 1138466699 
+<FAILED::>Expected 1589968543 , got 1266463317 
 
-<COMPLETEDIN::>0.151 ms
+<COMPLETEDIN::>0.344 ms
 
-<COMPLETEDIN::>0.397 ms
+<COMPLETEDIN::>0.864 ms

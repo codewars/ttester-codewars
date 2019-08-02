@@ -39,7 +39,7 @@ variable DIFFERENCES
   EMPTY-STACK
   F} ;
 
-2147483659 constant #m \ prime number < 2^32
+3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
 : c# { hash pow c -- hash' pow' } c pow * hash + #m mod pow #p * #m mod ;       \ polynomial rolling hash function, single char
 : s# { c-addr u -- hash } 0 1 c-addr u 0 +do { s } s c@ c# s char+ loop 2drop ; \ string hash
