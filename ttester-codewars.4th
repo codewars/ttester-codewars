@@ -15,26 +15,39 @@ create EXPECTED-RESULTS 32 cells allot
 variable RESULTS
 variable DIFFERENCES
 
+variable ^passed
+variable ^nresults
+variable ^different
+
+: passed$  ." Test Passed" cr ;
+: different$ ." Expected "
+  RESULTS @ 0 +do EXPECTED-RESULTS i cells + @ . loop
+  ." , got "
+  RESULTS @ 0 +do ACTUAL-RESULTS i cells + @ . loop
+  cr ;
+: nresults$ ." Wrong number of results, expected " depth START-DEPTH @ - .
+  ." , got " ACTUAL-DEPTH @ START-DEPTH @ - . cr ;
+
+' passed$ ^passed !
+' nresults$ ^nresults !
+' different$ ^different !
+
 : <{ T{ ;
 : }>
   depth ACTUAL-DEPTH @ = if
     depth START-DEPTH @ > if
-      depth START-DEPTH @ - dup RESULTS ! 0 do
+      depth START-DEPTH @ - dup RESULTS ! 0 +do
         dup EXPECTED-RESULTS i cells + !
         ACTUAL-RESULTS i cells + @ <> DIFFERENCES +!
       loop
       DIFFERENCES @ if
-        failed# ." Expected "
-        RESULTS @ 0 do EXPECTED-RESULTS i cells + @ . loop
-        ." , got "
-        RESULTS @ 0 do ACTUAL-RESULTS i cells + @ . loop
-        cr
+        failed# ^different @ execute
       else
-        passed# ." Test Passed" cr
+        passed# ^passed @ execute
       then
     then
   else
-    failed# ." Wrong number of results, expected " depth START-DEPTH @ - . ." , got " ACTUAL-DEPTH @ START-DEPTH @ - . cr
+    failed# ^nresults @ execute
   then
   EMPTY-STACK
   F} ;
