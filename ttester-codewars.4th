@@ -39,4 +39,7 @@ variable DIFFERENCES
   EMPTY-STACK
   F} ;
 
-: s# { c-addr u -- hash } 1000000009 { m } 0 1 c-addr u 0 +do { hash p s } s c@ p * hash + m mod p 53 * m mod s char+ loop 2drop ;
+1000000009 constant #m \ prime number < 2^32
+53 constant #p         \ prime number
+: c# { hash pow c -- hash' pow' } c pow * hash + #m mod pow #p * #m mod ;       \ polynomial rolling hash function, single char
+: s# { c-addr u -- hash } 0 1 c-addr u 0 +do { s } s c@ c# s char+ loop 2drop ; \ string hash
