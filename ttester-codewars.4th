@@ -36,6 +36,7 @@ variable ^different
 : }>
   depth ACTUAL-DEPTH @ = if
     depth START-DEPTH @ > if
+      0 DIFFERENCES !
       depth START-DEPTH @ - dup RESULTS ! 0 +do
         dup EXPECTED-RESULTS i cells + !
         ACTUAL-RESULTS i cells + @ <> DIFFERENCES +!
