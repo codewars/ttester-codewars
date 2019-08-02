@@ -1,0 +1,36 @@
+
+<DESCRIBE::>custom messages
+
+<IT::>short strings
+
+<PASSED::>Just passed
+
+<PASSED::>Just passed
+
+<COMPLETEDIN::>0.139 ms
+
+<IT::>failing compares
+
+<FAILED::>Just failed
+
+<FAILED::>Just failed
+
+<COMPLETEDIN::>0.162 ms
+
+<IT::>short strings
+
+<PASSED::>Got 'Hello World!' as expected
+
+<PASSED::>Got 'Hello Worlds!' as expected
+
+<COMPLETEDIN::>0.149 ms
+
+<IT::>failing compares
+
+<FAILED::>Expected 'Hello Worlds!', got 'Hello World!'
+
+<FAILED::>Expected 'Hello Worlds! ', got 'Hello Worlds!'
+
+<COMPLETEDIN::>0.150 ms
+
+<COMPLETEDIN::>1.365 ms
