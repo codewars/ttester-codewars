@@ -6,7 +6,7 @@ import glob, os, re, sys
 passed, failed, verbose, quiet = 0, 0, 0, 0
 
 def run (forthfile):
-    return os.popen ("gforth ../ttester-codewars.4th " + forthfile + " -e bye").readlines ()
+    return os.popen ("gforth ../ttester-codewars.4th " + forthfile + " -e bye 2>/dev/null").readlines ()
 
 def timeless (lines):
     return [re.sub(r'\d+', '0', l) if "<COMPLETEDIN::>" in l else l for l in lines]
