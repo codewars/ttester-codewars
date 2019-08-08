@@ -33,6 +33,13 @@ variable ^different
 ' different$ ^different !
 
 : <{ T{ ;
+: ->  depth dup ACTUAL-DEPTH !
+   START-DEPTH @ >= if
+     depth START-DEPTH @ - 0 +do ACTUAL-RESULTS i cells + ! loop
+   else
+     START-DEPTH @ depth - -1 +do 0 loop
+   then
+   F-> ;
 : }>
   depth ACTUAL-DEPTH @ = if
     depth START-DEPTH @ > if
