@@ -26,7 +26,7 @@ variable ^different
   RESULTS @ 0 +do ACTUAL-RESULTS i cells + @ . loop
   cr ;
 : nresults$ ." Wrong number of results, expected " depth START-DEPTH @ - .
-  ." , got " ACTUAL-DEPTH @ START-DEPTH @ - . cr ;
+  ." , got " ACTUAL-DEPTH @ START-DEPTH @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr ;
 
 ' passed$ ^passed !
 ' nresults$ ^nresults !
