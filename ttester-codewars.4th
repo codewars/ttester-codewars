@@ -2,10 +2,10 @@
 decimal
 s" test/ttester.fs" included
 
-: #ms ( dmicroseconds -- len c-addr ) <# # # # [char] . hold #s #> ;
+: #ms ( dmicroseconds -- c-addr len ) <# # # # [char] . hold #s #> ;
 
-: describe#{ ( len c-addr -- ) cr ." <DESCRIBE::>" type cr utime ;
-: it#{ ( len c-addr -- ) cr ." <IT::>" type cr utime ;
+: describe#{ ( c-addr len -- ) cr ." <DESCRIBE::>" type cr utime ;
+: it#{ ( c-addr len -- ) cr ." <IT::>" type cr utime ;
 : }# ( -- ) utime cr ." <COMPLETEDIN::>" 2swap d- #ms type ."  ms" cr ;
 
 : failed# ( -- ) cr ." <FAILED::>" ;
@@ -56,4 +56,4 @@ variable ^different
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
 : c# { hash pow c -- hash' pow' } c pow * hash + #m mod pow #p * #m mod ;       \ polynomial rolling hash function, single char
-: s# { c-addr u -- hash } 0 1 c-addr u 0 +do { s } s c@ c# s char+ loop 2drop ; \ string hash
+: s# { c-addr len -- hash } 0 1 c-addr len 0 +do { s } s c@ c# s char+ loop 2drop ; \ string hash
