@@ -21,9 +21,9 @@ variable ^different
 
 : passed$  ." Test Passed" cr ;
 : different$ ." Expected "
-  RESULTS @ 0 +do EXPECTED-RESULTS i cells + @ . loop
+  0 RESULTS @ -do EXPECTED-RESULTS i 1- cells + @ . 1 -loop
   ." , got "
-  RESULTS @ 0 +do ACTUAL-RESULTS i cells + @ . loop
+  0 RESULTS @ -do ACTUAL-RESULTS i 1- cells + @ . 1 -loop
   cr ;
 : nresults$ ." Wrong number of results, expected " depth START-DEPTH @ - .
   ." , got " ACTUAL-DEPTH @ START-DEPTH @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr ;
