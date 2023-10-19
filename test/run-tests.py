@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# Copyright 2019 nomennescio
+#!/usr/bin/env python2
+# Copyright 2019-2023 nomennescio
 
 import glob, os, re, sys
 
