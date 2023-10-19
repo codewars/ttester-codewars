@@ -1,4 +1,5 @@
 \ ttester extension for Codewars
+\ Copyright 2019-2023 nomennescio
 decimal
 s" test/ttester.fs" included
 
@@ -57,8 +58,8 @@ variable ^different
   else
     failed# ^nresults @ execute
   then
-  EMPTY-STACK
-  F} ;
+  F}
+  EMPTY-STACK ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
