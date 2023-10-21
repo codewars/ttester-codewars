@@ -83,12 +83,10 @@ variable #passed variable #failed variable #results
   else #results ++ then ;
 
 : }>
-  #passed 0! #failed 0! #results 0!
-  \ data stack
-  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] ['] compare compare-results
+  #passed 0! #failed 0! #results 0! \ user code has already finished running here
+  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] ['] compare compare-results \ compare cell stack
   restore-stack
-  \ floating point stack
-  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results
+  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results \ compare float stack
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
