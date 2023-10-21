@@ -60,13 +60,7 @@ variable ^fdifferent
 : passed$  ." Test Passed" cr ;
 
 : (different$) { r* e* a* 's '@ '. }
-  r* @ if
-  ." Expected "
-  0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop
-  ." , got "
-  0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop
-  cr
-  then ;
+  r* @ if ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr then ;
 
 :  different$  results expected-results  actual-results  ['] cells  [']  @ [']  . (different$) ;
 : fdifferent$ fresults expected-fresults actual-fresults ['] floats ['] f@ ['] f. (different$) ;
