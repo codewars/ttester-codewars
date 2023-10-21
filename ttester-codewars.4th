@@ -12,20 +12,20 @@ decimal
 : passed# ( -- ) cr ." <PASSED::>" ;
 
 \ data stack
-variable ACTUAL-DEPTH
-create ACTUAL-RESULTS 32 cells allot
-variable START-DEPTH
-create EXPECTED-RESULTS 32 cells allot
-variable RESULTS
-variable DIFFERENCES
+variable actual-depth
+create actual-results 32 cells allot
+variable start-depth
+create expected-results 32 cells allot
+variable results
+variable differences
 
 \ floating point stack
-variable ACTUAL-FDEPTH
-create ACTUAL-FRESULTS 32 floats allot
-variable START-FDEPTH
-create EXPECTED-FRESULTS 32 floats allot
-variable FRESULTS
-variable FDIFFERENCES
+variable actual-fdepth
+create actual-fresults 32 floats allot
+variable start-fdepth
+create expected-fresults 32 floats allot
+variable fresults
+variable fdifferences
 
 variable #passed
 
@@ -37,19 +37,19 @@ variable ^fdifferent
 
 : passed$  ." Test Passed" cr ;
 : different$ ." Expected "
-  0 RESULTS @ -do EXPECTED-RESULTS i 1- cells + @ . 1 -loop
+  0 results @ -do expected-results i 1- cells + @ . 1 -loop
   ." , got "
-  0 RESULTS @ -do ACTUAL-RESULTS i 1- cells + @ . 1 -loop
+  0 results @ -do actual-results i 1- cells + @ . 1 -loop
   cr ;
-: nresults$ ." Wrong number of results, expected " depth START-DEPTH @ - .
-  ." , got " ACTUAL-DEPTH @ START-DEPTH @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr ;
+: nresults$ ." Wrong number of results, expected " depth start-depth @ - .
+  ." , got " actual-depth @ start-depth @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr ;
 : fdifferent$ ." Expected "
-  0 FRESULTS @ -do EXPECTED-FRESULTS i 1- floats + f@ f. 1 -loop
+  0 fresults @ -do expected-fresults i 1- floats + f@ f. 1 -loop
   ." , got "
-  0 FRESULTS @ -do ACTUAL-FRESULTS i 1- floats + f@ f. 1 -loop
+  0 fresults @ -do actual-fresults i 1- floats + f@ f. 1 -loop
   cr ;
-: fnresults$ ." Wrong number of float results, expected " fdepth START-FDEPTH @ - .
-  ." , got " ACTUAL-FDEPTH @ START-FDEPTH @ -
+: fnresults$ ." Wrong number of float results, expected " fdepth start-fdepth @ - .
+  ." , got " actual-fdepth @ start-fdepth @ -
   dup 0< if negate ." a " . ." float stack underflow" else . then cr ;
 
 ' passed$ ^passed !
@@ -59,53 +59,53 @@ variable ^fdifferent
 ' fdifferent$ ^fdifferent !
 
 : restore-stack
-  depth START-DEPTH @ < if
-    depth START-DEPTH @ swap do 0 loop
+  depth start-depth @ < if
+    depth start-depth @ swap do 0 loop
   then
-  depth START-DEPTH @ > if
-    depth START-DEPTH @ do drop loop
+  depth start-depth @ > if
+    depth start-depth @ do drop loop
   then
 ;
 
 : restore-fstack
-  fdepth START-FDEPTH @ < if
-    fdepth START-FDEPTH @ swap do 0e loop
+  fdepth start-fdepth @ < if
+    fdepth start-fdepth @ swap do 0e loop
   then
-  fdepth START-FDEPTH @ > if
-    fdepth START-FDEPTH @ do fdrop loop
+  fdepth start-fdepth @ > if
+    fdepth start-fdepth @ do fdrop loop
   then
 ;
 
-: <{ depth START-DEPTH ! fdepth START-FDEPTH ! ;
+: <{ depth start-depth ! fdepth start-fdepth ! ;
 
 : ->
    \ keep actual data stack results
-   depth dup ACTUAL-DEPTH !
-   START-DEPTH @ >= if
-     depth START-DEPTH @ - 0 +do ACTUAL-RESULTS i cells + ! loop
+   depth dup actual-depth !
+   start-depth @ >= if
+     depth start-depth @ - 0 +do actual-results i cells + ! loop
    else \ underflow
-     START-DEPTH @ depth - -1 +do 0 loop
+     start-depth @ depth - -1 +do 0 loop
    then
    \ keep actual floating point stack results
-   fdepth dup ACTUAL-FDEPTH !
-   START-FDEPTH @ >= if
-     fdepth START-FDEPTH @ - 0 +do ACTUAL-FRESULTS i floats + f! loop
+   fdepth dup actual-fdepth !
+   start-fdepth @ >= if
+     fdepth start-fdepth @ - 0 +do actual-fresults i floats + f! loop
    else \ underflow
-     START-FDEPTH @ fdepth - -1 +do 0e loop
+     start-fdepth @ fdepth - -1 +do 0e loop
    then
 ;
 
 : }>
   0 #passed !
   \ data stack
-  depth ACTUAL-DEPTH @ = if
-    depth START-DEPTH @ >= if
-      0 DIFFERENCES !
-      depth START-DEPTH @ - dup RESULTS ! 0 +do
-        dup EXPECTED-RESULTS i cells + !
-        ACTUAL-RESULTS i cells + @ <> DIFFERENCES +!
+  depth actual-depth @ = if
+    depth start-depth @ >= if
+      0 differences !
+      depth start-depth @ - dup results ! 0 +do
+        dup expected-results i cells + !
+        actual-results i cells + @ <> differences +!
       loop
-      DIFFERENCES @ if
+      differences @ if
         failed# ^different @ execute
       else
         1 #passed +!
@@ -116,14 +116,14 @@ variable ^fdifferent
   then
   restore-stack
   \ floating point stack
-  fdepth ACTUAL-FDEPTH @ = if
-    fdepth START-FDEPTH @ >= if
-      0 FDIFFERENCES !
-      fdepth START-FDEPTH @ - dup FRESULTS ! 0 +do
-        fdup EXPECTED-FRESULTS i floats + f!
-        ACTUAL-FRESULTS i floats + f@ f<> FDIFFERENCES +!
+  fdepth actual-fdepth @ = if
+    fdepth start-fdepth @ >= if
+      0 fdifferences !
+      fdepth start-fdepth @ - dup fresults ! 0 +do
+        fdup expected-fresults i floats + f!
+        actual-fresults i floats + f@ f<> fdifferences +!
       loop
-      FDIFFERENCES @ if
+      fdifferences @ if
         failed# ^fdifferent @ execute
       else
         1 #passed +!
