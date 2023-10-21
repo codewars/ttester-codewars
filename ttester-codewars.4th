@@ -93,7 +93,7 @@ variable #passed variable #failed variable #results
 ;
 
 : }>
-  0 #passed ! 0 #failed ! 0 #results !
+  #passed 0! #failed 0! #results 0!
   \ data stack
   depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] ['] compare compare-results
   restore-stack
