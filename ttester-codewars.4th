@@ -77,8 +77,8 @@ variable ^fdifferent
 ' fnresults$ ^fnresults !
 ' fdifferent$ ^fdifferent !
 
-: restore-stack { d -- ... } start-depth @ d - sp@ + sp! ;
-: restore-fstack { fd -- ... } start-fdepth @ fd - fp@ + fp! ;
+: restore-stack ( -- ... ) depth start-depth @ swap - sp@ + sp! ;
+: restore-fstack ( -- ) start-fdepth @ fdepth - fp@ + fp! ;
 
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
@@ -119,7 +119,7 @@ variable ^fdifferent
   else
     1 #results +!
   then
-  depth restore-stack
+  restore-stack
   \ floating point stack
   fdepth actual-fdepth @ start-fdepth @ { d a s } d expected-fdepth !
   d a = if
@@ -138,7 +138,7 @@ variable ^fdifferent
   else
     1 #results +!
   then
-  fdepth restore-fstack
+  restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if
     failed#
