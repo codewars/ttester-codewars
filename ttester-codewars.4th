@@ -29,6 +29,9 @@ create expected-fresults 32 floats allot
 variable fresults
 variable fdifferences
 
+: restore-stack ( -- ... ) depth start-depth @ swap - sp@ + sp! ;
+: restore-fstack ( -- ) start-fdepth @ fdepth - fp@ + fp! ;
+
 variable #passed
 variable #failed
 variable #results
@@ -76,9 +79,6 @@ variable ^fdifferent
 ' different$ ^different !
 ' fnresults$ ^fnresults !
 ' fdifferent$ ^fdifferent !
-
-: restore-stack ( -- ... ) depth start-depth @ swap - sp@ + sp! ;
-: restore-fstack ( -- ) start-fdepth @ fdepth - fp@ + fp! ;
 
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
