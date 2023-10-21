@@ -65,17 +65,15 @@ variable ^fdifferent
 :  different$  results expected-results  actual-results  ['] cells  [']  @ [']  . (different$) ;
 : fdifferent$ fresults expected-fresults actual-fresults ['] floats ['] f@ ['] f. (different$) ;
 
-: nresults$
-  #expecteds @ #actuals @ - if
-  ." Wrong number of results, expected " #expecteds @ .
-  ." , got " #actuals @ dup 0< if negate ." a " . ." cell stack underflow" else . then cr
-  then ;
+: (nresults$) { #e #a s* s# }
+  #e #a - if
+  ." Wrong number of " s* s# type ." results, expected " #e .
+  ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr
+  then
+  ;
 
-: fnresults$
-  #expecteds.f @ #actuals.f @ - if
-  ." Wrong number of float results, expected " #expecteds.f @ .
-  ." , got " #actuals.f @ dup 0< if negate ." a " . ." float stack underflow" else . then cr
-  then ;
+:  nresults$ #expecteds   @ #actuals   @ s" "       (nresults$) ;
+: fnresults$ #expecteds.f @ #actuals.f @ s" float " (nresults$) ;
 
 ' passed$ ^passed !
 ' nresults$ ^nresults !

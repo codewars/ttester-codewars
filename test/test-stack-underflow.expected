@@ -3,32 +3,32 @@
 
 <IT::>single test
 
-<FAILED::>Wrong number of results, expected 2 , got a 1 cell stack underflow
+<FAILED::>Wrong number of results, expected 2 , got a 1 stack underflow
 
-<COMPLETEDIN::>0.013 ms
-
-<IT::>double test
-
-<FAILED::>Wrong number of results, expected 2 , got a 1 cell stack underflow
-
-<FAILED::>Wrong number of results, expected 2 , got a 2 cell stack underflow
-
-<COMPLETEDIN::>1697903903425.324 ms
+<COMPLETEDIN::>0.019 ms
 
 <IT::>double test
 
-<FAILED::>Wrong number of results, expected 3 , got a 1 cell stack underflow
+<FAILED::>Wrong number of results, expected 2 , got a 1 stack underflow
 
-<FAILED::>Wrong number of results, expected 3 , got a 2 cell stack underflow
+<FAILED::>Wrong number of results, expected 2 , got a 2 stack underflow
 
-<COMPLETEDIN::>1697903903425.344 ms
+<COMPLETEDIN::>1697924829946.237 ms
 
 <IT::>double test
 
-<FAILED::>Wrong number of results, expected 3 , got a 1 cell stack underflow
+<FAILED::>Wrong number of results, expected 3 , got a 1 stack underflow
 
-<FAILED::>Wrong number of results, expected 2 , got a 2 cell stack underflow
+<FAILED::>Wrong number of results, expected 3 , got a 2 stack underflow
 
-<COMPLETEDIN::>1697903903425.363 ms
+<COMPLETEDIN::>1697924829946.261 ms
 
-<COMPLETEDIN::>0.090 ms
+<IT::>double test
+
+<FAILED::>Wrong number of results, expected 3 , got a 1 stack underflow
+
+<FAILED::>Wrong number of results, expected 2 , got a 2 stack underflow
+
+<COMPLETEDIN::>1697924829946.284 ms
+
+<COMPLETEDIN::>0.099 ms
