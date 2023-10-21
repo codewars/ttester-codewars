@@ -3,24 +3,24 @@
 
 <IT::>single test
 
-<FAILED::>Wrong number of results, expected 1 , got 2 
+<FAILED::>Wrong number of cell results, expected 1 , got 2 
 
-<COMPLETEDIN::>0.060 ms
+<COMPLETEDIN::>0.023 ms
 
 <IT::>double test
 
-<FAILED::>Wrong number of results, expected 1 , got 2 
+<FAILED::>Wrong number of cell results, expected 1 , got 2 
 
 <PASSED::>Test Passed
 
-<COMPLETEDIN::>0.059 ms
+<COMPLETEDIN::>0.016 ms
 
 <IT::>double fail test
 
-<FAILED::>Wrong number of results, expected 1 , got 2 
+<FAILED::>Wrong number of cell results, expected 1 , got 2 
 
-<FAILED::>Wrong number of results, expected 3 , got 1 
+<FAILED::>Wrong number of cell results, expected 3 , got 1 
 
-<COMPLETEDIN::>0.071 ms
+<COMPLETEDIN::>0.018 ms
 
-<COMPLETEDIN::>0.235 ms
+<COMPLETEDIN::>0.078 ms

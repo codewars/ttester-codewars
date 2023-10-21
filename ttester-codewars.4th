@@ -72,7 +72,7 @@ variable ^fdifferent
   then
   ;
 
-:  nresults$ #expecteds   @ #actuals   @ s" "       (nresults$) ;
+:  nresults$ #expecteds   @ #actuals   @ s" cell "  (nresults$) ;
 : fnresults$ #expecteds.f @ #actuals.f @ s" float " (nresults$) ;
 
 ' passed$ ^passed !
