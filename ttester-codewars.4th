@@ -106,14 +106,11 @@ variable ^fdifferent
 
 : compare-results { #e #a s e* a* r* d* 'cmp }
   #e #a = if
-    #e 0 >= if
-      0 differences !
+    #e 0 >= if 0 d* !
       e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop
       1 d* @ if #failed else #passed then +!
     then
-  else
-    1 #results +!
-  then
+  else 1 #results +! then
 ;
 
 : }>
@@ -127,9 +124,8 @@ variable ^fdifferent
   \ pass test results to framework
   #results @ #failed @ + if failed#
     #results @ if ^nresults @ execute ^fnresults @ execute else
-    #failed @ if ^different @ execute ^fdifferent @ execute then then
-  else
-  #passed @ 2 = if passed# ^passed @ execute then then
+      #failed @ if ^different @ execute ^fdifferent @ execute then then
+  else #passed @ 2 = if passed# ^passed @ execute then then
 ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
