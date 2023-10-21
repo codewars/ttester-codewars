@@ -77,15 +77,8 @@ variable ^fdifferent
 ' fnresults$ ^fnresults !
 ' fdifferent$ ^fdifferent !
 
-: restore-stack { d -- ... }
-  start-depth @ d +do    0 loop
-  d start-depth @ +do drop loop
-;
-
-: restore-fstack { fd -- ... }
-  start-fdepth @ fd +do    0e loop
-  fd start-fdepth @ +do fdrop loop
-;
+: restore-stack { d -- ... } start-depth @ d - sp@ + sp! ;
+: restore-fstack { fd -- ... } start-fdepth @ fd - fp@ + fp! ;
 
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
