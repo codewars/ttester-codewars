@@ -100,11 +100,11 @@ variable ^fdifferent
      s d - -1 +do 0 loop
    then
    \ store actual floating point stack results
-   fdepth dup actual-fdepth !
-   start-fdepth @ >= if
-     actual-fdepth @ start-fdepth @ - 0 +do actual-fresults i floats + f! loop
+   fdepth start-fdepth @ { d s } d actual-fdepth !
+   d s >= if
+     d s - 0 +do actual-fresults i floats + f! loop
    else \ underflow
-     start-fdepth @ actual-fdepth - -1 +do 0e loop
+     s d - -1 +do 0e loop
    then
 ;
 
@@ -130,11 +130,11 @@ variable ^fdifferent
   then
   restore-stack
   \ floating point stack
-  fdepth expected-fdepth !
-  expected-fdepth @ actual-fdepth @ = if
-    expected-fdepth @ start-fdepth @ >= if
+  fdepth actual-fdepth @ start-fdepth @ { d a s } d expected-fdepth !
+  d a = if
+    d s >= if
       0 fdifferences !
-      fdepth start-fdepth @ - dup fresults ! 0 +do
+      fdepth s - dup fresults ! 0 +do
         fdup expected-fresults i floats + f!
         actual-fresults i floats + f@ f<> fdifferences +!
       loop
