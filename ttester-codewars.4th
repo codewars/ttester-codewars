@@ -26,15 +26,8 @@ variable start-fdepth
 variable #actuals.f   create actuals.f[]   32 floats allot
 variable #expecteds.f create expecteds.f[] 32 floats allot
 
-: restore-stack ( -- ... ) depth { d }
-  start-depth @ d +do    0 loop
-  d start-depth @ +do drop loop
-;
-
-: restore-fstack ( -- ) fdepth { fd }
-  start-fdepth @ fd +do    0e loop
-  fd start-fdepth @ +do fdrop loop
-;
+: restore-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
+: restore-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
 
 : passed$  ." Test Passed" cr ;
 
@@ -46,10 +39,9 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 
 : (nresults$) { #e #a s* s# }
   #e #a - if
-  ." Wrong number of " s* s# type ." results, expected " #e .
-  ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr
-  then
-  ;
+    ." Wrong number of " s* s# type ." results, expected " #e .
+    ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr
+  then ;
 
 :  nresults$ #expecteds   @ #actuals   @ s" cell "  (nresults$) ;
 : fnresults$ #expecteds.f @ #actuals.f @ s" float " (nresults$) ;
@@ -67,8 +59,7 @@ variable ^fnresults  ' fnresults$  ^fnresults !
      *r #a 0 +do { *r } *r '! ^ *r s + loop drop
    else \ underflow
      #a negate -1 +do '0 ^ loop
-   then
-;
+   then ;
 
 : _0 0 ;
 : _0e 0e ;
@@ -89,8 +80,7 @@ variable #passed variable #failed variable #results
       0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
       if #failed else #passed then ++
     then
-  else #results ++ then
-;
+  else #results ++ then ;
 
 : }>
   #passed 0! #failed 0! #results 0!
@@ -103,8 +93,7 @@ variable #passed variable #failed variable #results
   \ pass test results to framework
   #results @ #failed @ + if failed#
     #results @ if ^nresults @^ ^fnresults @^ else #failed @ if ^different @^ ^fdifferent @^ then then
-  else #passed @ 2 = if passed# ^passed @^ then then
-;
+  else #passed @ 2 = if passed# ^passed @^ then then ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
