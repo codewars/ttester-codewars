@@ -34,23 +34,23 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 : (different$) { r* e* a* 's '@ '. }
   r* @ if ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr then ;
 
-:  different$ #expecteds   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
-: fdifferent$ #expecteds.f expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
+: different$   #expecteds   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
+: different.f$ #expecteds.f expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
 
-: (nresults$) { #e #a s* s# }
+: (#results$) { #e #a s* s# }
   #e #a - if
     ." Wrong number of " s* s# type ." results, expected " #e .
     ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr
   then ;
 
-:  nresults$ #expecteds   @ #actuals   @ s" cell "  (nresults$) ;
-: fnresults$ #expecteds.f @ #actuals.f @ s" float " (nresults$) ;
+: #results$   #expecteds   @ #actuals   @ s" cell "  (#results$) ;
+: #results.f$ #expecteds.f @ #actuals.f @ s" float " (#results$) ;
 
-variable ^passed     ' passed$     ^passed !
-variable ^different  ' different$  ^different !
-variable ^fdifferent ' fdifferent$ ^fdifferent !
-variable ^nresults   ' nresults$   ^nresults !
-variable ^fnresults  ' fnresults$  ^fnresults !
+variable ^passed      ' passed$      ^passed !
+variable ^different   ' different$   ^different !
+variable ^different.f ' different.f$ ^different.f !
+variable ^#results    ' #results$    ^#results !
+variable ^#results.f  ' #results.f$  ^#results.f !
 
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
@@ -84,13 +84,13 @@ variable #passed variable #failed variable #results
 
 : }>
   #passed 0! #failed 0! #results 0! \ user code has already finished running here
-  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] ['] compare compare-results \ compare cell stack
+  depth   start-depth @ - dup #expecteds   ! #actuals   @ cell  expecteds[]   actuals[]   ['] compare   compare-results \ compare cells
   restore-stack
-  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results \ compare float stack
+  fdepth start-fdepth @ - dup #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results \ compare floats
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
-    #results @ if ^nresults @^ ^fnresults @^ else #failed @ if ^different @^ ^fdifferent @^ then then
+    #results @ if ^#results @^ ^#results.f @^ else #failed @ if ^different @^ ^different.f @^ then then
   else #passed @ 2 = if passed# ^passed @^ then then ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
