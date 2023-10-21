@@ -2,8 +2,6 @@
 \ Copyright 2019-2023 nomennescio
 decimal
 
-s" debugs.fs" included
-
 : #ms ( dmicroseconds -- c-addr len ) <# # # # [char] . hold #s #> ;
 
 : describe#{ ( c-addr len -- ) cr ." <DESCRIBE::>" type cr utime ;
@@ -20,17 +18,13 @@ s" debugs.fs" included
 
 \ data stack
 variable start-depth
-variable #actuals
-create actuals[] 32 cells allot
-variable #expecteds
-create expecteds[] 32 cells allot
+variable #actuals   create actuals[]   32 cells allot
+variable #expecteds create expecteds[] 32 cells allot
 
 \ floating point stack
 variable start-fdepth
-variable #actuals.f
-create actuals.f[] 32 floats allot
-variable #expecteds.f
-create expecteds.f[] 32 floats allot
+variable #actuals.f   create actuals.f[]   32 floats allot
+variable #expecteds.f create expecteds.f[] 32 floats allot
 
 : restore-stack ( -- ... ) depth { d }
   start-depth @ d +do    0 loop
@@ -41,16 +35,6 @@ create expecteds.f[] 32 floats allot
   start-fdepth @ fd +do    0e loop
   fd start-fdepth @ +do fdrop loop
 ;
-
-variable #passed
-variable #failed
-variable #results
-
-variable ^passed
-variable ^nresults
-variable ^different
-variable ^fnresults
-variable ^fdifferent
 
 : passed$  ." Test Passed" cr ;
 
@@ -70,11 +54,11 @@ variable ^fdifferent
 :  nresults$ #expecteds   @ #actuals   @ s" cell "  (nresults$) ;
 : fnresults$ #expecteds.f @ #actuals.f @ s" float " (nresults$) ;
 
-' passed$ ^passed !
-' nresults$ ^nresults !
-' different$ ^different !
-' fnresults$ ^fnresults !
-' fdifferent$ ^fdifferent !
+variable ^passed     ' passed$     ^passed !
+variable ^different  ' different$  ^different !
+variable ^fdifferent ' fdifferent$ ^fdifferent !
+variable ^nresults   ' nresults$   ^nresults !
+variable ^fnresults  ' fnresults$  ^fnresults !
 
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
@@ -93,6 +77,8 @@ variable ^fdifferent
  depth  start-depth  @ - dup #actuals   ! cell  actuals[]   ['] !  ['] _0  store-results \ store cell stack results
  fdepth start-fdepth @ - dup #actuals.f ! float actuals.f[] ['] f! ['] _0e store-results \ store float stack results
 ;
+
+variable #passed variable #failed variable #results
 
 : compare   { e* a* d -- d' }  dup e*  ! a*  @  <> d + ;
 : compare.f { e* a* d -- d' } fdup e* f! a* f@ f<> d + ;
