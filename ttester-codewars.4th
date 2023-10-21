@@ -1,7 +1,6 @@
 \ ttester extension for Codewars
 \ Copyright 2019-2023 nomennescio
 decimal
-s" test/ttester.fs" included
 
 : #ms ( dmicroseconds -- c-addr len ) <# # # # [char] . hold #s #> ;
 
@@ -13,10 +12,17 @@ s" test/ttester.fs" included
 : passed# ( -- ) cr ." <PASSED::>" ;
 
 \ data stack
+variable ACTUAL-DEPTH
+create ACTUAL-RESULTS 32 cells allot
+variable START-DEPTH
 create EXPECTED-RESULTS 32 cells allot
 variable RESULTS
 variable DIFFERENCES
+
 \ floating point stack
+variable ACTUAL-FDEPTH
+create ACTUAL-FRESULTS 32 floats allot
+variable START-FDEPTH
 create EXPECTED-FRESULTS 32 floats allot
 variable FRESULTS
 variable FDIFFERENCES
@@ -70,7 +76,7 @@ variable ^fdifferent
   then
 ;
 
-: <{ T{ ;
+: <{ depth START-DEPTH ! fdepth START-FDEPTH ! ;
 
 : ->
    \ keep actual data stack results
