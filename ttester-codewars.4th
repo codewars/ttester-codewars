@@ -53,12 +53,6 @@ variable ^fdifferent
   cr
   then ;
 
-: nresults$
-  expected-depth @ actual-depth @ - if
-  ." Wrong number of results, expected " expected-depth @ start-depth @ - .
-  ." , got " actual-depth @ start-depth @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr
-  then ;
-
 : fdifferent$
   fresults @ if
   ." Expected "
@@ -66,6 +60,12 @@ variable ^fdifferent
   ." , got "
   0 fresults @ -do actual-fresults i 1- floats + f@ f. 1 -loop
   cr
+  then ;
+
+: nresults$
+  expected-depth @ actual-depth @ - if
+  ." Wrong number of results, expected " expected-depth @ start-depth @ - .
+  ." , got " actual-depth @ start-depth @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr
   then ;
 
 : fnresults$
