@@ -34,9 +34,6 @@ create expected-fresults 32 floats allot
 variable fresults
 variable fdifferences
 
-\ : restore-stack ( -- ... ) depth start-depth @ swap - sp@ + sp! ; \ not always safe?
-\ : restore-fstack ( -- ) start-fdepth @ fdepth - fp@ + fp! ; \ not always safe?
-
 : restore-stack ( -- ... ) depth { d }
   start-depth @ d +do    0 loop
   d start-depth @ +do drop loop
