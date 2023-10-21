@@ -108,20 +108,12 @@ variable ^fdifferent
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
   depth start-depth @ - dup #expecteds ! #actuals @
-  1 cells expected-results actual-results results differences { #e #a s e* a* r* d* }
-  ['] compare { 'cmp }
+  1 cells expected-results actual-results results differences ['] compare { #e #a s e* a* r* d* 'cmp }
   #e #a = if
     #e 0 >= if
       0 differences !
-      e* a* #e dup r* ! 0 +do { e* a* }
-        e* a* d* 'cmp ^
-        e* s + a* s +
-      loop
-      d* @ if
-        1 #failed +!
-      else
-        1 #passed +!
-      then
+      e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop
+      1 d* @ if #failed else #passed then +!
     then
   else
     1 #results +!
@@ -129,20 +121,12 @@ variable ^fdifferent
   restore-stack
   \ floating point stack
   fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @
-  1 floats expected-fresults actual-fresults fresults fdifferences { #e #a s e* a* r* d* }
-  ['] compare.f { 'cmp }
+  1 floats expected-fresults actual-fresults fresults fdifferences ['] compare.f { #e #a s e* a* r* d* 'cmp }
   #e #a = if
     #e 0 >= if
       0 fdifferences !
-      e* a* #e dup r* ! 0 +do { e* a* }
-        e* a* d* 'cmp ^
-        e* s + a* s +
-      loop
-      d* @ if
-        1 #failed +!
-      else
-        1 #passed +!
-      then
+      e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop
+      1 d* @ if #failed else #passed then +!
     then
   else
     1 #results +!
