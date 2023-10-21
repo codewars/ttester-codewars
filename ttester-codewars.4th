@@ -110,7 +110,7 @@ variable ^fdifferent
 : compare-results { #e #a s e* a* r* d* 'cmp }
   #e #a = if
     #e 0 >= if 0 d* !
-      e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop
+      e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop 2drop
       1 d* @ if #failed else #passed then +!
     then
   else 1 #results +! then
