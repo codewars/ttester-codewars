@@ -87,21 +87,22 @@ variable ^fdifferent
 
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
+: store-results { #a s *r '! '0 }
+   #a 0 >= if
+     *r #a 0 +do { *r } *r '! ^ *r s + loop drop
+   else \ underflow
+     #a negate -1 +do '0 ^ loop
+   then
+;
+
+: _0 0 ;
+: _0e 0e ;
+
 : ->
    \ store actual data stack results
-   depth start-depth @ - { #a } #a #actuals !
-   #a 0 >= if
-     #a 0 +do actual-results i cells + ! loop
-   else \ underflow
-     #a negate -1 +do 0 loop
-   then
+   depth start-depth @ - dup #actuals ! cell actual-results ['] ! ['] _0 store-results
    \ store actual floating point stack results
-   fdepth start-fdepth @ - { #a } #a #actuals.f !
-   #a 0 >= if
-     #a 0 +do actual-fresults i floats + f! loop
-   else \ underflow
-     #a negate -1 +do 0e loop
-   then
+   fdepth start-fdepth @ - dup #actuals.f ! float actual-fresults ['] f! ['] _0e store-results
 ;
 
 : compare   { e* a* d* }  dup e*  ! a*  @  <> d* +! ;
