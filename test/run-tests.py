@@ -5,12 +5,15 @@ import glob, os, re, sys
 
 passed, failed, verbose, quiet = 0, 0, 0, 0
 
+# run gforth on source code file
 def run (forthfile):
     return os.popen ("bash -c 'gforth ../ttester-codewars.4th " + forthfile + " -e bye 2> >(sed -E \"s/redefined .+  //g\" >&2)'").readlines ()
 
+# remove timing information
 def timeless (lines):
     return [re.sub(r'\d+', '0', l) if "<COMPLETEDIN::>" in l else l for l in lines]
 
+# test single Forth source code file
 def test (filename):
     global passed, failed
     actual = run (filename)
