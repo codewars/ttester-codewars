@@ -84,18 +84,18 @@ variable ^fdifferent
 
 : ->
    \ store actual data stack results
-   depth start-depth @ { d s } d s - #actuals !
-   d s >= if
-     d s - 0 +do actual-results i cells + ! loop
+   depth start-depth @ - { #a } #a #actuals !
+   #a 0 >= if
+     #a 0 +do actual-results i cells + ! loop
    else \ underflow
-     s d - -1 +do 0 loop
+     #a negate -1 +do 0 loop
    then
    \ store actual floating point stack results
-   fdepth start-fdepth @ { d s } d s - #actuals.f !
-   d s >= if
-     d s - 0 +do actual-fresults i floats + f! loop
+   fdepth start-fdepth @ - { #a } #a #actuals.f !
+   #a 0 >= if
+     #a 0 +do actual-fresults i floats + f! loop
    else \ underflow
-     s d - -1 +do 0e loop
+     #a negate -1 +do 0e loop
    then
 ;
 
