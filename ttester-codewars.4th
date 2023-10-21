@@ -2,6 +2,8 @@
 \ Copyright 2019-2023 nomennescio
 decimal
 
+s" debugs.fs" included
+
 : #ms ( dmicroseconds -- c-addr len ) <# # # # [char] . hold #s #> ;
 
 : describe#{ ( c-addr len -- ) cr ." <DESCRIBE::>" type cr utime ;
@@ -22,7 +24,6 @@ variable #actuals
 create actuals[] 32 cells allot
 variable #expecteds
 create expecteds[] 32 cells allot
-variable results
 
 \ floating point stack
 variable start-fdepth
@@ -30,7 +31,6 @@ variable #actuals.f
 create actuals.f[] 32 floats allot
 variable #expecteds.f
 create expecteds.f[] 32 floats allot
-variable fresults
 
 : restore-stack ( -- ... ) depth { d }
   start-depth @ d +do    0 loop
@@ -57,8 +57,8 @@ variable ^fdifferent
 : (different$) { r* e* a* 's '@ '. }
   r* @ if ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr then ;
 
-:  different$  results expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
-: fdifferent$ fresults expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
+:  different$ #expecteds   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
+: fdifferent$ #expecteds.f expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
 
 : (nresults$) { #e #a s* s# }
   #e #a - if
@@ -97,10 +97,10 @@ variable ^fdifferent
 : compare   { e* a* d -- d' }  dup e*  ! a*  @  <> d + ;
 : compare.f { e* a* d -- d' } fdup e* f! a* f@ f<> d + ;
 
-: compare-results { #e #a s e* a* r* 'cmp }
+: compare-results { #e #a s e* a* 'cmp }
   #e #a = if
     #e 0 >= if
-      0 e* a* #e dup r* ! 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
+      0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
       if #failed else #passed then ++
     then
   else #results ++ then
@@ -109,10 +109,10 @@ variable ^fdifferent
 : }>
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
-  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] results ['] compare compare-results
+  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] ['] compare compare-results
   restore-stack
   \ floating point stack
-  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] fresults ['] compare.f compare-results
+  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
