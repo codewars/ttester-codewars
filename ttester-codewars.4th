@@ -17,20 +17,20 @@ decimal
 : 0! ( addr -- ) 0 swap ! ;
 
 \ data stack
-variable #actuals
-create actual-results 32 cells allot
 variable start-depth
+variable #actuals
+create actuals[] 32 cells allot
 variable #expecteds
-create expected-results 32 cells allot
+create expecteds[] 32 cells allot
 variable results
 variable differences
 
 \ floating point stack
-variable #actuals.f
-create actual-fresults 32 floats allot
 variable start-fdepth
+variable #actuals.f
+create actuals.f[] 32 floats allot
 variable #expecteds.f
-create expected-fresults 32 floats allot
+create expecteds.f[] 32 floats allot
 variable fresults
 variable fdifferences
 
@@ -59,8 +59,8 @@ variable ^fdifferent
 : (different$) { r* e* a* 's '@ '. }
   r* @ if ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr then ;
 
-:  different$  results expected-results  actual-results  ['] cells  [']  @ [']  . (different$) ;
-: fdifferent$ fresults expected-fresults actual-fresults ['] floats ['] f@ ['] f. (different$) ;
+:  different$  results expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
+: fdifferent$ fresults expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
 
 : (nresults$) { #e #a s* s# }
   #e #a - if
@@ -92,10 +92,8 @@ variable ^fdifferent
 : _0e 0e ;
 
 : ->
-   \ store actual data stack results
-   depth start-depth @ - dup #actuals ! cell actual-results ['] ! ['] _0 store-results
-   \ store actual floating point stack results
-   fdepth start-fdepth @ - dup #actuals.f ! float actual-fresults ['] f! ['] _0e store-results
+ depth  start-depth  @ - dup #actuals   ! cell  actuals[]   ['] !  ['] _0  store-results \ store cell stack results
+ fdepth start-fdepth @ - dup #actuals.f ! float actuals.f[] ['] f! ['] _0e store-results \ store float stack results
 ;
 
 : compare   { e* a* d* }  dup e*  ! a*  @  <> d* +! ;
@@ -113,10 +111,10 @@ variable ^fdifferent
 : }>
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
-  depth start-depth @ - dup #expecteds ! #actuals @ cell expected-results actual-results results differences ['] compare compare-results
+  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] results differences ['] compare compare-results
   restore-stack
   \ floating point stack
-  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expected-fresults actual-fresults fresults fdifferences ['] compare.f compare-results
+  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] fresults fdifferences ['] compare.f compare-results
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
