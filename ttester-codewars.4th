@@ -104,11 +104,7 @@ variable ^fdifferent
 : compare   { e* a* d* }  dup e*  ! a*  @  <> d* +! ;
 : compare.f { e* a* d* } fdup e* f! a* f@ f<> d* +! ;
 
-: }>
-  0 #passed ! 0 #failed ! 0 #results !
-  \ data stack
-  depth start-depth @ - dup #expecteds ! #actuals @
-  1 cells expected-results actual-results results differences ['] compare { #e #a s e* a* r* d* 'cmp }
+: compare-results { #e #a s e* a* r* d* 'cmp }
   #e #a = if
     #e 0 >= if
       0 differences !
@@ -118,19 +114,19 @@ variable ^fdifferent
   else
     1 #results +!
   then
+;
+
+: }>
+  0 #passed ! 0 #failed ! 0 #results !
+  \ data stack
+  depth start-depth @ - dup #expecteds ! #actuals @
+  1 cells expected-results actual-results results differences ['] compare
+  compare-results
   restore-stack
   \ floating point stack
   fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @
-  1 floats expected-fresults actual-fresults fresults fdifferences ['] compare.f { #e #a s e* a* r* d* 'cmp }
-  #e #a = if
-    #e 0 >= if
-      0 fdifferences !
-      e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop
-      1 d* @ if #failed else #passed then +!
-    then
-  else
-    1 #results +!
-  then
+  1 floats expected-fresults actual-fresults fresults fdifferences ['] compare.f
+  compare-results
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if
