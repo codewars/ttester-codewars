@@ -12,6 +12,9 @@ decimal
 : passed# ( -- ) cr ." <PASSED::>" ;
 
 ' execute alias ^
+: @^ ( addr -- ) @ ^ ;
+: ++ ( addr -- ) 1 swap +! ;
+: 0! ( addr -- ) 0 swap ! ;
 
 \ data stack
 variable #actuals
@@ -123,9 +126,9 @@ variable ^fdifferent
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
-    #results @ if ^nresults @ execute ^fnresults @ execute else
-      #failed @ if ^different @ execute ^fdifferent @ execute then then
-  else #passed @ 2 = if passed# ^passed @ execute then then
+    #results @ if ^nresults @^ ^fnresults @^ else
+      #failed @ if ^different @^ ^fdifferent @^ then then
+  else #passed @ 2 = if passed# ^passed @^ then then
 ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
