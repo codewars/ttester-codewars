@@ -126,10 +126,10 @@ variable ^fdifferent
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
-    #results @ if ^nresults @ execute ^fnresults @ execute then
-    #failed @ if ^different @ execute ^fdifferent @ execute then
-  then
-  #passed @ 2 = if passed# ^passed @ execute then
+    #results @ if ^nresults @ execute ^fnresults @ execute else
+    #failed @ if ^different @ execute ^fdifferent @ execute then then
+  else
+  #passed @ 2 = if passed# ^passed @ execute then then
 ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
