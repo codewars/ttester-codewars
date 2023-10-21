@@ -126,8 +126,7 @@ variable ^fdifferent
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
-    #results @ if ^nresults @^ ^fnresults @^ else
-      #failed @ if ^different @^ ^fdifferent @^ then then
+    #results @ if ^nresults @^ ^fnresults @^ else #failed @ if ^different @^ ^fdifferent @^ then then
   else #passed @ 2 = if passed# ^passed @^ then then
 ;
 
