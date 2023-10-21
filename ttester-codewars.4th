@@ -52,67 +52,56 @@ variable ^fdifferent
 ' fnresults$ ^fnresults !
 ' fdifferent$ ^fdifferent !
 
+: restore-stack
+  depth START-DEPTH @ < if
+    depth START-DEPTH @ swap do 0 loop
+  then
+  depth START-DEPTH @ > if
+    depth START-DEPTH @ do drop loop
+  then
+;
+
 : restore-fstack
   fdepth START-FDEPTH @ < if
     fdepth START-FDEPTH @ swap do 0e loop
   then
   fdepth START-FDEPTH @ > if
     fdepth START-FDEPTH @ do fdrop loop
-  then ;
-
-: restore-stack
-    depth START-DEPTH @ < if
-        depth START-DEPTH @ swap do 0 loop
-    then
-    depth START-DEPTH @ > if
-        depth START-DEPTH @ do drop loop
-    then ;
-
-: <{ T{
-  \ ." $$$$$$$$$$$$$$$$$$$$: " sourcefilename type cr stdout flush-file
+  then
 ;
+
+: <{ T{ ;
+
 : ->
    \ keep actual data stack results
-   \ ." @@@@@@@@@@@@@@@@@@@@ DS" cr
-   \ depth . START-DEPTH @ .
    depth dup ACTUAL-DEPTH !
    START-DEPTH @ >= if
      depth START-DEPTH @ - 0 +do ACTUAL-RESULTS i cells + ! loop
    else \ underflow
      START-DEPTH @ depth - -1 +do 0 loop
    then
-   \ depth .
-   \ depth START-DEPTH @ - 0= if ." stack balanced" else ." stack unbalanced" then cr
    \ keep actual floating point stack results
-   \ ." @@@@@@@@@@@@@@@@@@@@ FS" cr
-   \ fdepth . START-FDEPTH @ .
    fdepth dup ACTUAL-FDEPTH !
    START-FDEPTH @ >= if
      fdepth START-FDEPTH @ - 0 +do ACTUAL-FRESULTS i floats + f! loop
    else \ underflow
      START-FDEPTH @ fdepth - -1 +do 0e loop
    then
-   \ fdepth .
-   \ fdepth START-FDEPTH @ - 0= if ." fstack balanced" else ." fstack unbalanced" then cr
-   \ ." @@@@@@@@@@@@@@@@@@@@" cr
 ;
+
 : }>
   0 #passed !
   \ data stack
-  \ ." #################### DS" cr
   depth ACTUAL-DEPTH @ = if
     depth START-DEPTH @ >= if
       0 DIFFERENCES !
-      \ depth . START-DEPTH @ .
       depth START-DEPTH @ - dup RESULTS ! 0 +do
-        \ ." ENTERED" cr
         dup EXPECTED-RESULTS i cells + !
         ACTUAL-RESULTS i cells + @ <> DIFFERENCES +!
       loop
       DIFFERENCES @ if
         failed# ^different @ execute
       else
-        \ ." PASSED"
         1 #passed +!
       then
     then
@@ -120,7 +109,6 @@ variable ^fdifferent
     failed# ^nresults @ execute
   then
   restore-stack
-  \ ." #################### FS" cr
   \ floating point stack
   fdepth ACTUAL-FDEPTH @ = if
     fdepth START-FDEPTH @ >= if
@@ -138,13 +126,8 @@ variable ^fdifferent
   else
     failed# ^fnresults @ execute
   then
-  \ ." <<<<<<<<<<<<<<<<<<<<" cr
-  \ different$
-  \ ." >>>>>>>>>>>>>>>>>>>>" cr
-  \ EMPTY-STACK
   restore-fstack
   #passed @ 2 = if passed# ^passed @ execute then
-  \ ." &&&&&&&&&&&&&&&&&&&&: " sourcefilename type cr
 ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
