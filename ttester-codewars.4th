@@ -23,7 +23,6 @@ create actuals[] 32 cells allot
 variable #expecteds
 create expecteds[] 32 cells allot
 variable results
-variable differences
 
 \ floating point stack
 variable start-fdepth
@@ -32,7 +31,6 @@ create actuals.f[] 32 floats allot
 variable #expecteds.f
 create expecteds.f[] 32 floats allot
 variable fresults
-variable fdifferences
 
 : restore-stack ( -- ... ) depth { d }
   start-depth @ d +do    0 loop
@@ -96,25 +94,25 @@ variable ^fdifferent
  fdepth start-fdepth @ - dup #actuals.f ! float actuals.f[] ['] f! ['] _0e store-results \ store float stack results
 ;
 
-: compare   { e* a* d* }  dup e*  ! a*  @  <> d* +! ;
-: compare.f { e* a* d* } fdup e* f! a* f@ f<> d* +! ;
+: compare   { e* a* d -- d' }  dup e*  ! a*  @  <> d + ;
+: compare.f { e* a* d -- d' } fdup e* f! a* f@ f<> d + ;
 
-: compare-results { #e #a s e* a* r* d* 'cmp }
+: compare-results { #e #a s e* a* r* 'cmp }
   #e #a = if
-    #e 0 >= if 0 d* !
-      e* a* #e dup r* ! 0 +do { e* a* } e* a* d* 'cmp ^ e* s + a* s + loop 2drop
-      1 d* @ if #failed else #passed then +!
+    #e 0 >= if
+      0 e* a* #e dup r* ! 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
+      if #failed else #passed then ++
     then
-  else 1 #results +! then
+  else #results ++ then
 ;
 
 : }>
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
-  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] results differences ['] compare compare-results
+  depth start-depth @ - dup #expecteds ! #actuals @ cell expecteds[] actuals[] results ['] compare compare-results
   restore-stack
   \ floating point stack
-  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] fresults fdifferences ['] compare.f compare-results
+  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] fresults ['] compare.f compare-results
   restore-fstack
   \ pass test results to framework
   #results @ #failed @ + if failed#
