@@ -120,12 +120,12 @@ variable ^fdifferent
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
   depth start-depth @ - dup #expecteds ! #actuals @
-  1 cells expected-results actual-results results differences ['] compare
+  cell expected-results actual-results results differences ['] compare
   compare-results
   restore-stack
   \ floating point stack
   fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @
-  1 floats expected-fresults actual-fresults fresults fdifferences ['] compare.f
+  float expected-fresults actual-fresults fresults fdifferences ['] compare.f
   compare-results
   restore-fstack
   \ pass test results to framework
