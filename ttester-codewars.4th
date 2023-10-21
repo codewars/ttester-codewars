@@ -100,13 +100,13 @@ variable ^fdifferent
 ;
 
 : }>
-  depth #actuals @ start-depth @ { d a s } d s - #expecteds !
+  depth start-depth @ - #actuals @ { #e #a } #e #expecteds !
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
-  d a s + = if
-    d s >= if
+  #e #a = if
+    #e 0 >= if
       0 differences !
-      d s - dup results ! 0 +do
+      #e dup results ! 0 +do
         dup expected-results i cells + !
         actual-results i cells + @ <> differences +!
       loop
@@ -121,11 +121,11 @@ variable ^fdifferent
   then
   restore-stack
   \ floating point stack
-  fdepth #actuals.f @ start-fdepth @ { d a s } d s - #expecteds.f !
-  d a s + = if
-    d s >= if
+  fdepth start-fdepth @ - #actuals.f @ { #e #a } #e #expecteds.f !
+  #e #a = if
+    #e 0 >= if
       0 fdifferences !
-      fdepth s - dup fresults ! 0 +do
+      #e dup fresults ! 0 +do
         fdup expected-fresults i floats + f!
         actual-fresults i floats + f@ f<> fdifferences +!
       loop
