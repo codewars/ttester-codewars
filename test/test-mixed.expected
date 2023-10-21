@@ -30,13 +30,10 @@
 <FAILED::>Wrong number of float results, expected 3 , got 4 
 
 <FAILED::>Wrong number of results, expected 1 , got 2 
-
-<FAILED::>Wrong number of float results, expected 1 , got 2 
-
-<FAILED::>Wrong number of results, expected 1 , got 2 
-
-<FAILED::>Wrong number of float results, expected 1 , got 2 
+Wrong number of float results, expected 1 , got 2 
 
 <FAILED::>Wrong number of results, expected 1 , got 2 
+Wrong number of float results, expected 1 , got 2 
 
-<FAILED::>Wrong number of float results, expected 1 , got 2 
+<FAILED::>Wrong number of results, expected 1 , got 2 
+Wrong number of float results, expected 1 , got 2 

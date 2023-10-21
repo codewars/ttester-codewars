@@ -15,6 +15,7 @@ decimal
 variable actual-depth
 create actual-results 32 cells allot
 variable start-depth
+variable expected-depth
 create expected-results 32 cells allot
 variable results
 variable differences
@@ -23,11 +24,14 @@ variable differences
 variable actual-fdepth
 create actual-fresults 32 floats allot
 variable start-fdepth
+variable expected-fdepth
 create expected-fresults 32 floats allot
 variable fresults
 variable fdifferences
 
 variable #passed
+variable #failed
+variable #results
 
 variable ^passed
 variable ^nresults
@@ -36,21 +40,36 @@ variable ^fnresults
 variable ^fdifferent
 
 : passed$  ." Test Passed" cr ;
-: different$ ." Expected "
+
+: different$
+  results @ if
+  ." Expected "
   0 results @ -do expected-results i 1- cells + @ . 1 -loop
   ." , got "
   0 results @ -do actual-results i 1- cells + @ . 1 -loop
-  cr ;
-: nresults$ ." Wrong number of results, expected " depth start-depth @ - .
-  ." , got " actual-depth @ start-depth @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr ;
-: fdifferent$ ." Expected "
+  cr
+  then ;
+
+: nresults$
+  expected-depth @ actual-depth @ - if
+  ." Wrong number of results, expected " expected-depth @ start-depth @ - .
+  ." , got " actual-depth @ start-depth @ - dup 0< if negate ." a " . ." cell stack underflow" else . then cr
+  then ;
+
+: fdifferent$
+  fresults @ if
+  ." Expected "
   0 fresults @ -do expected-fresults i 1- floats + f@ f. 1 -loop
   ." , got "
   0 fresults @ -do actual-fresults i 1- floats + f@ f. 1 -loop
-  cr ;
-: fnresults$ ." Wrong number of float results, expected " fdepth start-fdepth @ - .
-  ." , got " actual-fdepth @ start-fdepth @ -
-  dup 0< if negate ." a " . ." float stack underflow" else . then cr ;
+  cr
+  then ;
+
+: fnresults$
+  expected-fdepth @ actual-fdepth @ - if
+  ." Wrong number of float results, expected " expected-fdepth @ start-fdepth @ - .
+  ." , got " actual-fdepth @ start-fdepth @ - dup 0< if negate ." a " . ." float stack underflow" else . then cr
+  then ;
 
 ' passed$ ^passed !
 ' nresults$ ^nresults !
@@ -73,60 +92,71 @@ variable ^fdifferent
 : <{ depth start-depth ! fdepth start-fdepth ! ;
 
 : ->
-   \ keep actual data stack results
-   depth dup actual-depth !
-   start-depth @ >= if
-     depth start-depth @ - 0 +do actual-results i cells + ! loop
+   \ store actual data stack results
+   depth start-depth @ { d s } d actual-depth !
+   d s >= if
+     d s - 0 +do actual-results i cells + ! loop
    else \ underflow
-     start-depth @ depth - -1 +do 0 loop
+     s d - -1 +do 0 loop
    then
-   \ keep actual floating point stack results
+   \ store actual floating point stack results
    fdepth dup actual-fdepth !
    start-fdepth @ >= if
-     fdepth start-fdepth @ - 0 +do actual-fresults i floats + f! loop
+     actual-fdepth @ start-fdepth @ - 0 +do actual-fresults i floats + f! loop
    else \ underflow
-     start-fdepth @ fdepth - -1 +do 0e loop
+     start-fdepth @ actual-fdepth - -1 +do 0e loop
    then
 ;
 
 : }>
-  0 #passed !
+  depth actual-depth @ start-depth @ { d a s } d expected-depth !
+  0 #passed ! 0 #failed ! 0 #results !
   \ data stack
-  depth actual-depth @ = if
-    depth start-depth @ >= if
+  d a = if
+    d s >= if
       0 differences !
-      depth start-depth @ - dup results ! 0 +do
+      d s - dup results ! 0 +do
         dup expected-results i cells + !
         actual-results i cells + @ <> differences +!
       loop
       differences @ if
-        failed# ^different @ execute
+        1 #failed +!
       else
         1 #passed +!
       then
     then
   else
-    failed# ^nresults @ execute
+    1 #results +!
   then
   restore-stack
   \ floating point stack
-  fdepth actual-fdepth @ = if
-    fdepth start-fdepth @ >= if
+  fdepth expected-fdepth !
+  expected-fdepth @ actual-fdepth @ = if
+    expected-fdepth @ start-fdepth @ >= if
       0 fdifferences !
       fdepth start-fdepth @ - dup fresults ! 0 +do
         fdup expected-fresults i floats + f!
         actual-fresults i floats + f@ f<> fdifferences +!
       loop
       fdifferences @ if
-        failed# ^fdifferent @ execute
+        1 #failed +!
       else
         1 #passed +!
       then
     then
   else
-    failed# ^fnresults @ execute
+    1 #results +!
   then
   restore-fstack
+  \ pass test results to framework
+  #results @ #failed @ + if
+    failed#
+    #results @ if
+      ^nresults @ execute
+      ^fnresults @ execute
+      then
+    #failed @ if ^different @ execute ^fdifferent @ execute then
+  then
   #passed @ 2 = if passed# ^passed @ execute then
 ;
 

@@ -3,17 +3,9 @@
 
 <IT::>single test
 
-<FAILED::>Wrong number of results, expected 1 , got a 1 cell stack underflow
+<FAILED::>Wrong number of results, expected 2 , got a 1 cell stack underflow
 
-<COMPLETEDIN::>0.033 ms
-
-<IT::>double test
-
-<FAILED::>Wrong number of results, expected 1 , got a 1 cell stack underflow
-
-<FAILED::>Wrong number of results, expected 1 , got a 2 cell stack underflow
-
-<COMPLETEDIN::>1565296144893.672 ms
+<COMPLETEDIN::>0.013 ms
 
 <IT::>double test
 
@@ -21,14 +13,22 @@
 
 <FAILED::>Wrong number of results, expected 2 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>1565296144893.759 ms
+<COMPLETEDIN::>1697903903425.324 ms
 
 <IT::>double test
 
-<FAILED::>Wrong number of results, expected 2 , got a 1 cell stack underflow
+<FAILED::>Wrong number of results, expected 3 , got a 1 cell stack underflow
 
-<FAILED::>Wrong number of results, expected 1 , got a 2 cell stack underflow
+<FAILED::>Wrong number of results, expected 3 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>1565296144893.836 ms
+<COMPLETEDIN::>1697903903425.344 ms
 
-<COMPLETEDIN::>0.311 ms
+<IT::>double test
+
+<FAILED::>Wrong number of results, expected 3 , got a 1 cell stack underflow
+
+<FAILED::>Wrong number of results, expected 2 , got a 2 cell stack underflow
+
+<COMPLETEDIN::>1697903903425.363 ms
+
+<COMPLETEDIN::>0.090 ms
