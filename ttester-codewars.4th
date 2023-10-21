@@ -11,6 +11,8 @@ decimal
 : failed# ( -- ) cr ." <FAILED::>" ;
 : passed# ( -- ) cr ." <PASSED::>" ;
 
+' execute alias ^
+
 \ data stack
 variable #actuals
 create actual-results 32 cells allot
@@ -99,18 +101,23 @@ variable ^fdifferent
    then
 ;
 
+: compare   { e* a* d* }  dup e*  ! a*  @  <> d* +! ;
+: compare.f { e* a* d* } fdup e* f! a* f@ f<> d* +! ;
+
 : }>
   0 #passed ! 0 #failed ! 0 #results !
   \ data stack
-  depth start-depth @ - dup #expecteds ! #actuals @ { #e #a }
+  depth start-depth @ - dup #expecteds ! #actuals @
+  1 cells expected-results actual-results results differences { #e #a s e* a* r* d* }
+  ['] compare { 'cmp }
   #e #a = if
     #e 0 >= if
       0 differences !
-      #e dup results ! 0 +do
-        dup expected-results i cells + !
-        actual-results i cells + @ <> differences +!
+      e* a* #e dup r* ! 0 +do { e* a* }
+        e* a* d* 'cmp ^
+        e* s + a* s +
       loop
-      differences @ if
+      d* @ if
         1 #failed +!
       else
         1 #passed +!
@@ -121,15 +128,17 @@ variable ^fdifferent
   then
   restore-stack
   \ floating point stack
-  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @ { #e #a }
+  fdepth start-fdepth @ - dup  #expecteds.f ! #actuals.f @
+  1 floats expected-fresults actual-fresults fresults fdifferences { #e #a s e* a* r* d* }
+  ['] compare.f { 'cmp }
   #e #a = if
     #e 0 >= if
       0 fdifferences !
-      #e dup fresults ! 0 +do
-        fdup expected-fresults i floats + f!
-        actual-fresults i floats + f@ f<> fdifferences +!
+      e* a* #e dup r* ! 0 +do { e* a* }
+        e* a* d* 'cmp ^
+        e* s + a* s +
       loop
-      fdifferences @ if
+      d* @ if
         1 #failed +!
       else
         1 #passed +!
