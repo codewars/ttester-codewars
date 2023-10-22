@@ -13,7 +13,7 @@ Some excellent sources to get you started learning Forth:
 
 ## GForth Documentation
 
-* [ANS Forth 2012 Standard] (https://forth-standard.org/)
+* [ANS Forth 2012 Standard](https://forth-standard.org/)
 * [GForth 0.7.0 Documentation (older than Codewars' GForth)](https://www.complang.tuwien.ac.at/forth/gforth/Docs-html/index.html#Top)
 * [GForth 0.7.9 Documentation (newer than Codewars' GForth)](https://gforth.org/manual/index.html#Top)
 
