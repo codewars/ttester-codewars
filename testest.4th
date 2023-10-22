@@ -86,9 +86,7 @@ variable ^#results.f  ' #results.f$  ^#results.f !
   restore-stack restore-fstack
    0 0 0 #expecteds   @ expecteds[]   #actuals   @ actuals[]   cell  ['] compare   compare-results { #p #f #r } \ compare cells
   #p 0 0 #expecteds.f @ expecteds.f[] #actuals.f @ actuals.f[] float ['] compare.f compare-results { #p #ff #rf } \ compare floats
-  #r #rf + #f #ff + + if failed#
-    #r ^#results ?@^ #rf ^#results.f ?@^
-    #f ^different ?@^ #ff ^different.f ?@^
+  #r #rf + #f #ff + + if failed# #r ^#results ?@^ #rf ^#results.f ?@^ #f ^different ?@^ #ff ^different.f ?@^
   else #p 2 = if passed# ^passed @ ^ then then ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
