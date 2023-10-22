@@ -7,7 +7,7 @@ passed, failed, verbose, quiet = 0, 0, 0, 0
 
 # run gforth on source code file
 def run (forthfile):
-    return os.popen ("bash -c 'gforth ../ttester-codewars.4th " + forthfile + " -e bye 2> >(sed -E \"s/redefined .+  //g\" >&2)'").readlines ()
+    return os.popen ("bash -c 'gforth ../testest.4th " + forthfile + " -e bye 2> >(sed -E \"s/redefined .+  //g\" >&2)'").readlines ()
 
 # remove timing information
 def timeless (lines):
