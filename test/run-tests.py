@@ -60,3 +60,5 @@ os.chdir (prevdir)
 
 if failed > 0 or passed == 0:
     sys.exit(1)
+#! always fail
+sys.exit(1)
