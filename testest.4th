@@ -8,13 +8,15 @@ decimal
 : it#{ ( c-addr len -- ) cr ." <IT::>" type cr utime ;
 : }# ( -- ) utime cr ." <COMPLETEDIN::>" 2swap d- #ms type ."  ms" cr ;
 
-: failed# ( -- ) cr ." <FAILED::>" ;
-: passed# ( -- ) cr ." <PASSED::>" ;
-
 ' execute alias ^
 : @^ ( addr -- ) @ ^ ;
 : ++ ( addr -- ) 1 swap +! ;
 : 0! ( addr -- ) 0 swap ! ;
+
+: failed# ( -- ) cr ." <FAILED::>" ;
+: passed# ( -- ) cr ." <PASSED::>" ;
+variable lf lf 0!
+: ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
 \ data stack
 variable start-depth
@@ -32,15 +34,15 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 : passed$  ." Test Passed" cr ;
 
 : (different$) { r* e* a* 's '@ '. }
-  r* @ if ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr then ;
+  r* @ dup if ?lf# ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr lf ++ then ;
 
 : different$   #expecteds   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
 : different.f$ #expecteds.f expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
 
 : (#results$) { #e #a s* s# }
-  #e #a - if
-    ." Wrong number of " s* s# type ." results, expected " #e .
-    ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr
+  #e #a - dup if
+    ?lf# ." Wrong number of " s* s# type ." results, expected " #e .
+    ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr lf ++
   then ;
 
 : #results$   #expecteds   @ #actuals   @ s" cell "  (#results$) ;
@@ -52,7 +54,7 @@ variable ^different.f ' different.f$ ^different.f !
 variable ^#results    ' #results$    ^#results !
 variable ^#results.f  ' #results.f$  ^#results.f !
 
-: <{ depth start-depth ! fdepth start-fdepth ! ;
+: <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
 : store-results { #a s *r '! '0 }
    #a 0 >= if
