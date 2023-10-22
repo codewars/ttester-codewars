@@ -1,7 +1,6 @@
 ## "Testest" Forth Test Framework for Codewars
 
-Testest is a test framework used also to test Forth code on Codewars.
-Originally inspired by 'ttester.fs', it was completely rewritten and shares design with the Testest test framework for Factor on Codewars.
+Testest is a test framework used also to test Forth code on Codewars. Originally inspired by 'ttester.fs', it was completely rewritten and shares design with the Testest test framework for Factor on Codewars.
 
 ## Learning Forth
 
@@ -24,5 +23,7 @@ See [example](./example).
 ## Acknowledgements
 
 Authored by [@nomennescio](https://github.com/nomennescio).
+
 Copyright 2018-2023 by nomennescio
+
 Covered by [this license](https://github.com/codewars/ttester-codewars/blob/master/LICENSE.md)
