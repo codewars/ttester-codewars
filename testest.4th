@@ -66,9 +66,15 @@ variable ^#results.f  ' #results.f$  ^#results.f !
 : _0 0 ;
 : _0e 0e ;
 
+: store-stacks { #n p* #nf pf* }
+ #n  cell  p*  ['] !  ['] _0  store-results \ store cell stack results
+ #nf float pf* ['] f! ['] _0e store-results \ store float stack results
+;
+
 : ->
- depth  start-depth  @ - dup #actuals   ! cell  actuals[]   ['] !  ['] _0  store-results \ store cell stack results
- fdepth start-fdepth @ - dup #actuals.f ! float actuals.f[] ['] f! ['] _0e store-results \ store float stack results
+ depth  start-depth  @ - dup #actuals   ! actuals[]
+ fdepth start-fdepth @ - dup #actuals.f ! actuals.f[]
+ store-stacks
 ;
 
 : compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
@@ -83,8 +89,9 @@ variable ^#results.f  ' #results.f$  ^#results.f !
   else 1+ then ;
 
 : }>
-  depth  start-depth  @ - dup #expecteds   ! cell  expecteds[]   ['] !  ['] _0  store-results \ store cell stack results
-  fdepth start-fdepth @ - dup #expecteds.f ! float expecteds.f[] ['] f! ['] _0e store-results \ store float stack results
+  depth  start-depth  @ - dup #expecteds   ! expecteds[]
+  fdepth start-fdepth @ - dup #expecteds.f ! expecteds.f[]
+  store-stacks
   restore-stack
   restore-fstack
    0 0 0 #expecteds   @ #actuals   @ cell  expecteds[]   actuals[]   ['] compare   compare-results { #p #f #r } \ compare cells
