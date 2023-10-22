@@ -1,5 +1,5 @@
-\ ttester extension for Codewars
-\ Copyright 2019-2023 nomennescio
+\ "Testest" Forth Test Framework for Codewars
+\ Copyright 2018-2023 nomennescio
 decimal
 
 : #ms ( dmicroseconds -- c-addr len ) <# # # # [char] . hold #s #> ;
