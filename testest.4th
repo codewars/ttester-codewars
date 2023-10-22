@@ -31,7 +31,7 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 : restore-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
 : restore-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
 
-: passed$  ." Test Passed" cr ;
+: passed$ ." Test Passed" cr ;
 
 : (different$) { r* e* a* 's '@ '. }
   r* @ dup if ?lf# ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr lf ++ then ;
@@ -48,11 +48,11 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 : #results$   #expecteds   @ #actuals   @ s" cell "  (#results$) ;
 : #results.f$ #expecteds.f @ #actuals.f @ s" float " (#results$) ;
 
-variable ^passed      ' passed$      ^passed !
-variable ^different   ' different$   ^different !
-variable ^different.f ' different.f$ ^different.f !
-variable ^#results    ' #results$    ^#results !
-variable ^#results.f  ' #results.f$  ^#results.f !
+variable ^passed$      ' passed$      ^passed$ !
+variable ^different$   ' different$   ^different$ !
+variable ^different.f$ ' different.f$ ^different.f$ !
+variable ^#results$    ' #results$    ^#results$ !
+variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
@@ -94,8 +94,8 @@ fvariable epsilon
   restore-stack restore-fstack
    0 0 0 #expecteds   @ expecteds[]   #actuals   @ actuals[]   cell  ['] compare   compare-results { #p #f #r } \ compare cells
   #p 0 0 #expecteds.f @ expecteds.f[] #actuals.f @ actuals.f[] float ['] compare.f compare-results { #p #ff #rf } \ compare floats
-  #r #rf + #f #ff + + if failed# #r ^#results ?@^ #rf ^#results.f ?@^ #f ^different ?@^ #ff ^different.f ?@^
-  else #p 2 = if passed# ^passed @ ^ then then ;
+  #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
+  else #p 2 = if passed# ^passed$ @ ^ then then ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
