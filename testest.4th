@@ -71,29 +71,28 @@ variable ^#results.f  ' #results.f$  ^#results.f !
  fdepth start-fdepth @ - dup #actuals.f ! float actuals.f[] ['] f! ['] _0e store-results \ store float stack results
 ;
 
-variable #passed variable #failed variable #results
-
-: compare   { e* a* d -- d' }  dup e*  ! a*  @  <> d + ;
-: compare.f { e* a* d -- d' } fdup e* f! a* f@ f<> d + ;
+: compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
+: compare.f { e* a* d -- d' }  e* f@ a* f@ f<> d + ;
 
 : compare-results { #e #a s e* a* 'cmp }
   #e #a = if
     #e 0 >= if
       0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
-      if #failed else #passed then ++
+      if >r 1+ r> else rot 1+ -rot then
     then
-  else #results ++ then ;
+  else 1+ then ;
 
 : }>
-  #passed 0! #failed 0! #results 0! \ user code has already finished running here
-  depth   start-depth @ - dup #expecteds   ! #actuals   @ cell  expecteds[]   actuals[]   ['] compare   compare-results \ compare cells
+  depth  start-depth  @ - dup #expecteds   ! cell  expecteds[]   ['] !  ['] _0  store-results \ store cell stack results
+  fdepth start-fdepth @ - dup #expecteds.f ! float expecteds.f[] ['] f! ['] _0e store-results \ store float stack results
   restore-stack
-  fdepth start-fdepth @ - dup #expecteds.f ! #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results \ compare floats
   restore-fstack
-  \ pass test results to framework
-  #results @ #failed @ + if failed#
-    #results @ if ^#results @^ ^#results.f @^ else #failed @ if ^different @^ ^different.f @^ then then
-  else #passed @ 2 = if passed# ^passed @^ then then ;
+   0 0 0 #expecteds   @ #actuals   @ cell  expecteds[]   actuals[]   ['] compare   compare-results { #p #f #r } \ compare cells
+  #p 0 0 #expecteds.f @ #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
+  #r #rf + #f #ff + + if failed#
+    #r if ^#results @^ then #rf if ^#results.f @^ then
+    #f if ^different @^ then #ff if ^different.f @^ then
+  else #p 2 = if passed# ^passed @^ then then ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number

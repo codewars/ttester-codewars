@@ -39,19 +39,15 @@
 <:LF:>Wrong number of float results, expected 1 , got 2 
 
 <FAILED::>Expected 2 , got 1 
-<:LF:>Expected 2. , got 2. 
 
-<FAILED::>Expected 1 , got 1 
-<:LF:>Expected 1. , got 2. 
+<FAILED::>Expected 1. , got 2. 
 
 <FAILED::>Expected 2 , got 1 
 <:LF:>Expected 1. , got 2. 
 
 <FAILED::>Expected 4 5 6 , got 1 2 3 
-<:LF:>Expected 4. 5. 6. , got 4. 5. 6. 
 
-<FAILED::>Expected 1 2 3 , got 1 2 3 
-<:LF:>Expected 1. 2. 3. , got 4. 5. 6. 
+<FAILED::>Expected 1. 2. 3. , got 4. 5. 6. 
 
 <FAILED::>Expected 4 5 6 , got 1 2 3 
 <:LF:>Expected 1. 2. 3. , got 4. 5. 6. 
