@@ -9,7 +9,7 @@ decimal
 : }# ( -- ) utime cr ." <COMPLETEDIN::>" 2swap d- #ms type ."  ms" cr ;
 
 ' execute alias ^
-: @^ ( addr -- ) @ ^ ;
+: ?@^ ( ? addr -- ) swap if @ ^ else drop then ;
 : ++ ( addr -- ) 1 swap +! ;
 : 0! ( addr -- ) 0 swap ! ;
 
@@ -56,7 +56,7 @@ variable ^#results.f  ' #results.f$  ^#results.f !
 
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
-: store-results { #n s *p '! '0 }
+: store-results { #n *p s '! '0 }
    #n 0 >= if
      *p #n 0 +do { *p } *p '! ^ *p s + loop drop
    else \ underflow
@@ -66,14 +66,14 @@ variable ^#results.f  ' #results.f$  ^#results.f !
 : _0 0 ;
 : _0e 0e ;
 
-: store-stacks { #n p* #nf pf* } #n cell p* ['] ! ['] _0 store-results #nf float pf* ['] f! ['] _0e store-results ;
+: store-stacks { #c c* #f f* } #c c* cell ['] ! ['] _0 store-results #f f* float ['] f! ['] _0e store-results ;
 
 : -> depth start-depth @ - dup #actuals ! actuals[] fdepth start-fdepth @ - dup #actuals.f ! actuals.f[] store-stacks ;
 
 : compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
 : compare.f { e* a* d -- d' }  e* f@ a* f@ f<> d + ;
 
-: compare-results { #e #a s e* a* 'cmp } ( #p #f #r -- #p' #f' #r' )
+: compare-results { #e e* #a a* s 'cmp } ( #p #f #r -- #p' #f' #r' )
   #e #a = if
     #e 0 >= if
       0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
@@ -84,12 +84,12 @@ variable ^#results.f  ' #results.f$  ^#results.f !
 : }>
   depth start-depth @ - dup #expecteds ! expecteds[] fdepth start-fdepth @ - dup #expecteds.f ! expecteds.f[] store-stacks
   restore-stack restore-fstack
-   0 0 0 #expecteds   @ #actuals   @ cell  expecteds[]   actuals[]   ['] compare   compare-results { #p #f #r } \ compare cells
-  #p 0 0 #expecteds.f @ #actuals.f @ float expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
+   0 0 0 #expecteds   @ expecteds[]   #actuals   @ actuals[]   cell  ['] compare   compare-results { #p #f #r } \ compare cells
+  #p 0 0 #expecteds.f @ expecteds.f[] #actuals.f @ actuals.f[] float ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed#
-    #r if ^#results @^ then #rf if ^#results.f @^ then
-    #f if ^different @^ then #ff if ^different.f @^ then
-  else #p 2 = if passed# ^passed @^ then then ;
+    #r ^#results ?@^ #rf ^#results.f ?@^
+    #f ^different ?@^ #ff ^different.f ?@^
+  else #p 2 = if passed# ^passed @ ^ then then ;
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
