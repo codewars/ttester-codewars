@@ -17,7 +17,5 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends gforth
-      - name: Install python2
-        run: sudo apt-get install -y --no-install-recommends python2
       - name: Run integration tests
-        run: python2 test/run-tests.py -v
+        run: python3 test/run-tests.py -v
