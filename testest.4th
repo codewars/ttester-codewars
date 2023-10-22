@@ -70,8 +70,16 @@ variable ^#results.f  ' #results.f$  ^#results.f !
 
 : -> depth start-depth @ - dup #actuals ! actuals[] fdepth start-fdepth @ - dup #actuals.f ! actuals.f[] store-stacks ;
 
+variable ^f<>
+: F<>: ' ^f<> ! ;
+F<>: f<>
+
+fvariable epsilon
+: rel<> epsilon f@ f~rel 0= ;
+: abs<> epsilon f@ f~abs 0= ;
+
 : compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
-: compare.f { e* a* d -- d' }  e* f@ a* f@ f<> d + ;
+: compare.f { e* a* d -- d' }  e* f@ a* f@ ^f<> @ ^ d + ;
 
 : compare-results { #e e* #a a* s 'cmp } ( #p #f #r -- #p' #f' #r' )
   #e #a = if
