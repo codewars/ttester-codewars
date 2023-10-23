@@ -11,7 +11,7 @@ float stack unbalanced
 
 <COMPLETEDIN::>0.010 ms
 
-<COMPLETEDIN::>0.015 ms
+<COMPLETEDIN::>0.016 ms
 cell  stack balanced
 float stack balanced
 
@@ -33,7 +33,7 @@ float stack balanced
 
 <FAILED::>Wrong number of cell results, expected 1 , got a 1 cell stack underflow
 
-<COMPLETEDIN::>0.007 ms
+<COMPLETEDIN::>0.008 ms
 
 <IT::>double test
 
@@ -41,7 +41,7 @@ float stack balanced
 
 <FAILED::>Wrong number of cell results, expected 1 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>1698095100262.642 ms
+<COMPLETEDIN::>1698095971439.486 ms
 
 <IT::>double test
 
@@ -49,7 +49,7 @@ float stack balanced
 
 <FAILED::>Wrong number of cell results, expected 2 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>1698095100262.660 ms
+<COMPLETEDIN::>1698095971439.504 ms
 
 <IT::>double test
 
@@ -57,8 +57,38 @@ float stack balanced
 
 <FAILED::>Wrong number of cell results, expected 1 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>1698095100262.677 ms
+<COMPLETEDIN::>1698095971439.522 ms
 
-<COMPLETEDIN::>0.065 ms
+<IT::>float test
+
+<FAILED::>Wrong number of float results, expected 1 , got a 1 float stack underflow
+
+<COMPLETEDIN::>0.008 ms
+
+<IT::>double float test
+
+<FAILED::>Wrong number of float results, expected 1 , got a 1 float stack underflow
+
+<FAILED::>Wrong number of float results, expected 1 , got a 2 float stack underflow
+
+<COMPLETEDIN::>0.022 ms
+
+<IT::>double float test
+
+<FAILED::>Wrong number of float results, expected 2 , got a 1 float stack underflow
+
+<FAILED::>Wrong number of float results, expected 2 , got a 2 float stack underflow
+
+<COMPLETEDIN::>0.015 ms
+
+<IT::>double float test
+
+<FAILED::>Wrong number of float results, expected 2 , got a 1 float stack underflow
+
+<FAILED::>Wrong number of float results, expected 1 , got a 2 float stack underflow
+
+<COMPLETEDIN::>0.015 ms
+
+<COMPLETEDIN::>0.142 ms
 cell  stack balanced
 float stack balanced
