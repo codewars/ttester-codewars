@@ -37,11 +37,7 @@ variable sp%            variable fp%
 \ stack helpers
 
 : store-stack { a[] '! '0 } a[] []> { n s a* }
-  n 0 >= if
-    a* n 0 +do { a* } a* '! ^ a* s + loop drop
-  else \ underflow, zero out stack
-    n negate -1 +do '0 ^ loop
-  then ;
+  n 0 >= if a* n 0 +do { a* } a* '! ^ a* s + loop drop else n negate -1 +do '0 ^ loop then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
 : reset-stacks ( -- ... ) sp% @ sp! fp% @ fp! ;
