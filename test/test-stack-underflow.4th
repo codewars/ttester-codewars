@@ -6,13 +6,13 @@ variable sp* variable fp*
 : ?balance$ ( ? s# s* -- ) type ."  stack " if ." balanced" else ." unbalanced" then cr ;
 :  balance$ ( -- ) sp@ sp* @ = s" cell "  ?balance$ fp@ fp* @ = s" float" ?balance$ ;
 
-\ reset-stacks
-\ balance$
+reset-stacks
+balance$
 
 0 0e \ force unbalance
 
-\ balance$
-\ reset-stacks
+balance$
+reset-stacks
 
 s" no underflow" describe#{
   s" single test" it#{
@@ -20,8 +20,8 @@ s" no underflow" describe#{
   }#
 }#
 
-\ balance$
-\ reset-stacks
+balance$
+reset-stacks
 
 s" simple underflow" describe#{
   s" single test" it#{
@@ -29,8 +29,8 @@ s" simple underflow" describe#{
   }#
 }#
 
-\ balance$
-\ reset-stacks
+balance$
+reset-stacks
 
 s" stack underflow" describe#{
   s" single test" it#{
@@ -50,4 +50,4 @@ s" stack underflow" describe#{
   }#
 }#
 
-\ balance$
+balance$
