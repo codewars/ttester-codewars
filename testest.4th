@@ -60,7 +60,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
-: store-results { n *p s '! '0 }
+: store-results { a[] '! '0 } a[] []> { n s *p }
    n 0 >= if
      *p n 0 +do { *p } *p '! ^ *p s + loop drop
    else \ underflow
@@ -70,9 +70,9 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 : _0 0 ;
 : _0e 0e ;
 
-: store-stacks { #c c* #f f* } #c c* cell ['] ! ['] _0 store-results #f f* float ['] f! ['] _0e store-results ;
+: store-stacks { c[] f[] } c[] ['] ! ['] _0 store-results f[] ['] f! ['] _0e store-results ;
 
-: -> depth start-depth @ - dup actuals[] ! actuals[] [0] fdepth start-fdepth @ - dup actuals.f[] ! actuals.f[] [0] store-stacks ;
+: -> depth start-depth @ - actuals[] ! fdepth start-fdepth @ - actuals.f[] ! actuals[] actuals.f[] store-stacks ;
 
 variable ^f<>
 : F<>: ' ^f<> ! ;
@@ -94,7 +94,7 @@ fvariable epsilon
   else 1+ then ;
 
 : }>
-  depth start-depth @ - dup expecteds[] ! expecteds[] [0] fdepth start-fdepth @ - dup expecteds.f[] ! expecteds.f[] [0] store-stacks
+  depth start-depth @ - expecteds[] ! fdepth start-fdepth @ - expecteds.f[] ! expecteds[] expecteds.f[] store-stacks
   restore-stack restore-fstack
    0 0 0 expecteds[] actuals[] ['] compare   compare-results { #p #f #r } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
