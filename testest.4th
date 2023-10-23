@@ -94,8 +94,7 @@ fvariable epsilon
   then else 1+ then ;
 
 : }>
-  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks
-  restore-stack restore-fstack
+  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks restore-stack restore-fstack
    0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
