@@ -96,7 +96,7 @@ fvariable epsilon
 : }>
   depth start-depth @ - expecteds[] ! fdepth start-fdepth @ - expecteds.f[] ! expecteds[] expecteds.f[] store-stacks
   restore-stack restore-fstack
-   0 0 0 expecteds[] actuals[] ['] compare   compare-results { #p #f #r } \ compare cells
+   0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
   else #p 2 = if passed# ^passed$ @ ^ then then ;
