@@ -82,7 +82,7 @@ variable ^#results$    ' #results$    ^#results$ !
 variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : #results   sp@ sp% @ swap - cell / ;
-: #results.f fp% @ fp@ - cell / ;
+: #results.f fp% @ fp@ - float / ;
 
 \ testest unit test
 
