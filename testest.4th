@@ -8,35 +8,68 @@ decimal
 : it#{ ( c-addr len -- ) cr ." <IT::>" type cr utime ;
 : }# ( -- ) utime cr ." <COMPLETEDIN::>" 2swap d- #ms type ."  ms" cr ;
 
+\ address helpers
+
 ' execute alias ^
 : ?@^ ( ? addr -- ) swap if @ ^ else drop then ;
 : ++ ( addr -- ) 1 swap +! ;
 : 0! ( addr -- ) 0 swap ! ;
+
+\ reporting helpers
 
 : failed# ( -- ) cr ." <FAILED::>" ;
 : passed# ( -- ) cr ." <PASSED::>" ;
 variable lf lf 0!
 : ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
+\ generic arrays
+
 : [] ( n element-size -- ) create 2dup 0 , , , * allot maxalign ; \ not sure if maxalign is essential
 : [0] ( [] -- &a[0] ) 3 cells + ;
 : []> ( [] -- n s &a[0] ) >r r@ @ r@ cell+ @ r> [0] ;
+: []. { a[] '@ '. } a[] []> { n s a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
 
 \ data stack            \ floating point stack
 variable start-depth    variable start-fdepth
 32 cell [] actuals[]    32 float [] actuals.f[]
 32 cell [] expecteds[]  32 float [] expecteds.f[]
 
+\ stack helpers
+
+: store-stack { a[] '! '0 } a[] []> { n s a* }
+   n 0 >= if
+     a* n 0 +do { a* } a* '! ^ a* s + loop drop
+   else \ underflow
+     n negate -1 +do '0 ^ loop
+   then ;
+: _0 0 ; : _0e 0e ;
+: store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
 : restore-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
 : restore-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
 
-: passed$ ." Test Passed" cr ;
+\ support for custom, exact, and inexact floating point comparisons
 
-: []. { a[] '@ '. } a[] []> { n s a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
+fvariable epsilon
+: rel<> epsilon f@ f~rel 0= ;
+: abs<> epsilon f@ f~abs 0= ;
+variable ^f<>
+: F<>: ' ^f<> ! ;
+F<>: f<>
+
+: compare   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
+: compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
+: compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s e* #a _ a* } ( #p #f #r -- #p' #f' #r' )
+  #e #a = if #e 0 >= if
+    0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
+    if >r 1+ r> else rot 1+ -rot then
+  then else 1+ then ;
+
+\ default reporting
+
+: passed$ ." Test Passed" cr ;
 : (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
 : different$   expecteds[]   actuals[]   [']  @ [']  . (different$) ;
 : different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
-
 : (#results$) { e[] a[] s* s# } e[] @ a[] @ { #e #a }
   #e #a - dup if
     ?lf# ." Wrong number of " s* s# type ." results, expected " #e .
@@ -44,6 +77,8 @@ variable start-depth    variable start-fdepth
   then ;
 : #results$   expecteds[]   actuals[]   s" cell "  (#results$) ;
 : #results.f$ expecteds.f[] actuals.f[] s" float " (#results$) ;
+
+\ custom reporting
 
 variable ^passed$      ' passed$      ^passed$ !
 variable ^different$   ' different$   ^different$ !
@@ -53,43 +88,19 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : #results    depth start-depth  @ - ;
 : #results.f fdepth start-fdepth @ - ;
+
+\ testest unit test
+
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
-
-: store-stack { a[] '! '0 } a[] []> { n s a* }
-   n 0 >= if
-     a* n 0 +do { a* } a* '! ^ a* s + loop drop
-   else \ underflow
-     n negate -1 +do '0 ^ loop
-   then ;
-
-: _0 0 ; : _0e 0e ;
-: store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
-
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
-
-variable ^f<>
-: F<>: ' ^f<> ! ;
-F<>: f<>
-
-fvariable epsilon
-: rel<> epsilon f@ f~rel 0= ;
-: abs<> epsilon f@ f~abs 0= ;
-
-: compare   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
-: compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
-
-: compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s e* #a _ a* } ( #p #f #r -- #p' #f' #r' )
-  #e #a = if #e 0 >= if
-    0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
-    if >r 1+ r> else rot 1+ -rot then
-  then else 1+ then ;
-
 : }>
   #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks restore-stack restore-fstack
    0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
   else #p 2 = if passed# ^passed$ @ ^ then then ;
+
+\ utility words
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
