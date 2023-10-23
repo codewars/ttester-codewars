@@ -39,8 +39,6 @@ variable sp%            variable fp%
 : store-stack { a[] '! '0 } a[] []> { n s a* }
    n 0 >= if
      a* n 0 +do { a* } a* '! ^ a* s + loop drop
-   else \ underflow
-     n negate -1 +do '0 ^ loop
    then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
@@ -91,7 +89,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 \ testest unit test
 
 : <{ sp@ sp% ! fp@ fp% ! lf 0! ;
-: -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
+: -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks reset-stacks ;
 : }>
   #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stacks
    0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
