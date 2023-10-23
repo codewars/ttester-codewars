@@ -18,9 +18,9 @@ decimal
 variable lf lf 0!
 : ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
-: [] ( n element-size -- ) create 2dup swap 0 , , , * allot maxalign ; \ not sure if maxalign is essential
+: [] ( n element-size -- ) create 2dup 0 , , , * allot maxalign ; \ not sure if maxalign is essential
 : [0] ( [] -- &a[0] ) 3 cells + ;
-: []> ( [] -- n capacity s &a[0] ) >r r@ @ r@ @ r@ @ r> [0] ;
+: []> ( [] -- n s &a[0] ) >r r@ @ r@ cell+ @ r> [0] ;
 
 \ data stack
 variable start-depth
@@ -85,7 +85,7 @@ fvariable epsilon
 : compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
 : compare.f { e* a* d -- d' }  e* f@ a* f@ ^f<> @ ^ d + ;
 
-: compare-results { e[] a[] 'cmp } e[] []> a[] @ a[] [0] { #e _ s e* #a a* } ( #p #f #r -- #p' #f' #r' )
+: compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s e* #a _ a* } ( #p #f #r -- #p' #f' #r' )
   #e #a = if
     #e 0 >= if
       0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
