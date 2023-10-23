@@ -44,8 +44,8 @@ variable start-depth    variable start-fdepth
    then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
-: restore-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
-: restore-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
+: reset-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
+: reset-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
 
 \ support for custom, exact, and inexact floating point comparisons
 
@@ -94,7 +94,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
 : }>
-  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks restore-stack restore-fstack
+  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stack reset-fstack
    0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
