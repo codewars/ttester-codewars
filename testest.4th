@@ -85,7 +85,7 @@ fvariable epsilon
 : compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
 : compare.f { e* a* d -- d' }  e* f@ a* f@ ^f<> @ ^ d + ;
 
-: compare-results { #e e* #a a* s 'cmp } ( #p #f #r -- #p' #f' #r' )
+: compare-results { e[] a[] 'cmp } e[] []> a[] @ a[] [0] { #e _ s e* #a a* } ( #p #f #r -- #p' #f' #r' )
   #e #a = if
     #e 0 >= if
       0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
@@ -96,8 +96,8 @@ fvariable epsilon
 : }>
   depth start-depth @ - dup expecteds[] ! expecteds[] [0] fdepth start-fdepth @ - dup expecteds.f[] ! expecteds.f[] [0] store-stacks
   restore-stack restore-fstack
-   0 0 0 expecteds[]   @ expecteds[]   [0] actuals[]   @ actuals[]   [0] cell  ['] compare   compare-results { #p #f #r } \ compare cells
-  #p 0 0 expecteds.f[] @ expecteds.f[] [0] actuals.f[] @ actuals.f[] [0] float ['] compare.f compare-results { #p #ff #rf } \ compare floats
+   0 0 0 expecteds[] actuals[] ['] compare   compare-results { #p #f #r } \ compare cells
+  #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
   else #p 2 = if passed# ^passed$ @ ^ then then ;
 
