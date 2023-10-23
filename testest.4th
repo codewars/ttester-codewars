@@ -69,9 +69,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
      n negate -1 +do '0 ^ loop
    then ;
 
-: _0 0 ;
-: _0e 0e ;
-
+: _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
 
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
