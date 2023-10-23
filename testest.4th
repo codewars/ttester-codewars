@@ -88,12 +88,10 @@ fvariable epsilon
 : compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
 
 : compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s e* #a _ a* } ( #p #f #r -- #p' #f' #r' )
-  #e #a = if
-    #e 0 >= if
-      0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
-      if >r 1+ r> else rot 1+ -rot then
-    then
-  else 1+ then ;
+  #e #a = if #e 0 >= if
+    0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
+    if >r 1+ r> else rot 1+ -rot then
+  then else 1+ then ;
 
 : }>
   #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks
