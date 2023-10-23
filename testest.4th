@@ -44,8 +44,7 @@ variable sp%    variable fp%
    then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
-: reset-stack ( -- ... ) sp% @ sp! ;
-: reset-fstack ( -- ) fp% @ fp! ;
+: reset-stacks ( -- ... ) sp% @ sp! fp% @ fp! ;
 
 \ support for custom, exact, and inexact floating point comparisons
 
@@ -94,11 +93,11 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 : <{ sp@ sp% ! fp@ fp% ! lf 0! ;
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
 : }>
-  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stack reset-fstack
+  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stacks
    0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
-  else #p 2 = if passed# ^passed$ @ ^ then then reset-stack reset-fstack ;
+  else #p 2 = if passed# ^passed$ @ ^ then then reset-stacks ;
 
 \ utility words
 
