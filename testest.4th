@@ -58,6 +58,8 @@ variable ^different.f$ ' different.f$ ^different.f$ !
 variable ^#results$    ' #results$    ^#results$ !
 variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
+: #results    depth start-depth  @ - ;
+: #results.f fdepth start-fdepth @ - ;
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
 : store-results { a[] '! '0 } a[] []> { n s a* }
@@ -72,7 +74,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-results f[] ['] f! ['] _0e store-results ;
 
-: -> depth start-depth @ - actuals[] ! fdepth start-fdepth @ - actuals.f[] ! actuals[] actuals.f[] store-stacks ;
+: -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
 
 variable ^f<>
 : F<>: ' ^f<> ! ;
@@ -94,7 +96,7 @@ fvariable epsilon
   else 1+ then ;
 
 : }>
-  depth start-depth @ - expecteds[] ! fdepth start-fdepth @ - expecteds.f[] ! expecteds[] expecteds.f[] store-stacks
+  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks
   restore-stack restore-fstack
    0 0 0 expecteds[]   actuals[]   ['] compare   compare-results { #p #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] compare.f compare-results { #p #ff #rf } \ compare floats
