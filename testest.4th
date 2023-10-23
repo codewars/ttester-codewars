@@ -30,7 +30,7 @@ variable lf lf 0!
 : []. { a[] '@ '. } a[] []> { n s a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
 
 \ data stack            \ floating point stack
-variable start-depth    variable start-fdepth
+variable sp%    variable fp%
 32 cell [] actuals[]    32 float [] actuals.f[]
 32 cell [] expecteds[]  32 float [] expecteds.f[]
 
@@ -44,8 +44,8 @@ variable start-depth    variable start-fdepth
    then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
-: reset-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
-: reset-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
+: reset-stack ( -- ... ) sp% @ sp! ;
+: reset-fstack ( -- ) fp% @ fp! ;
 
 \ support for custom, exact, and inexact floating point comparisons
 
@@ -86,12 +86,12 @@ variable ^different.f$ ' different.f$ ^different.f$ !
 variable ^#results$    ' #results$    ^#results$ !
 variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
-: #results    depth start-depth  @ - ;
-: #results.f fdepth start-fdepth @ - ;
+: #results   sp@ sp% @ swap - cell / ;
+: #results.f fp% @ fp@ - cell / ;
 
 \ testest unit test
 
-: <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
+: <{ sp@ sp% ! fp@ fp% ! lf 0! ;
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
 : }>
   #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stack reset-fstack
