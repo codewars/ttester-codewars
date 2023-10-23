@@ -9,9 +9,9 @@ float stack unbalanced
 
 <PASSED::>Test Passed
 
-<COMPLETEDIN::>0.011 ms
+<COMPLETEDIN::>0.010 ms
 
-<COMPLETEDIN::>0.018 ms
+<COMPLETEDIN::>0.015 ms
 cell  stack balanced
 float stack balanced
 
@@ -19,21 +19,29 @@ float stack balanced
 
 <IT::>single test
 
-<FAILED::>Wrong number of cell results, expected 2 , got a 1 cell stack underflow
+<FAILED::>Wrong number of cell results, expected 1 , got a 1 cell stack underflow
 
-<COMPLETEDIN::>340282366920938463408036073281702013.249 ms
+<COMPLETEDIN::>0.008 ms
 
-<COMPLETEDIN::>340251043038630353886697570352955599.173 ms
-cell  stack unbalanced
+<COMPLETEDIN::>0.014 ms
+cell  stack balanced
 float stack balanced
 
 <DESCRIBE::>stack underflow
 
 <IT::>single test
 
-<FAILED::>Wrong number of cell results, expected 2 , got a 1 cell stack underflow
+<FAILED::>Wrong number of cell results, expected 1 , got a 1 cell stack underflow
 
-<COMPLETEDIN::>340282366920938463408036073281702013.271 ms
+<COMPLETEDIN::>0.007 ms
+
+<IT::>double test
+
+<FAILED::>Wrong number of cell results, expected 1 , got a 1 cell stack underflow
+
+<FAILED::>Wrong number of cell results, expected 1 , got a 2 cell stack underflow
+
+<COMPLETEDIN::>1698095100262.642 ms
 
 <IT::>double test
 
@@ -41,24 +49,16 @@ float stack balanced
 
 <FAILED::>Wrong number of cell results, expected 2 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>340282366920938463389589329207992461.674 ms
+<COMPLETEDIN::>1698095100262.660 ms
 
 <IT::>double test
 
-<FAILED::>Wrong number of cell results, expected 3 , got a 1 cell stack underflow
+<FAILED::>Wrong number of cell results, expected 2 , got a 1 cell stack underflow
 
-<FAILED::>Wrong number of cell results, expected 3 , got a 2 cell stack underflow
+<FAILED::>Wrong number of cell results, expected 1 , got a 2 cell stack underflow
 
-<COMPLETEDIN::>340282366920938463371142585134282910.078 ms
+<COMPLETEDIN::>1698095100262.677 ms
 
-<IT::>double test
-
-<FAILED::>Wrong number of cell results, expected 3 , got a 1 cell stack underflow
-
-<FAILED::>Wrong number of cell results, expected 2 , got a 2 cell stack underflow
-
-<COMPLETEDIN::>340282366920938463389589329207992461.714 ms
-
-<COMPLETEDIN::>0.019 ms
-cell  stack unbalanced
+<COMPLETEDIN::>0.065 ms
+cell  stack balanced
 float stack balanced
