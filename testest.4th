@@ -22,15 +22,10 @@ variable lf lf 0!
 : [0] ( [] -- &a[0] ) 3 cells + ;
 : []> ( [] -- n s &a[0] ) >r r@ @ r@ cell+ @ r> [0] ;
 
-\ data stack
-variable start-depth
-32 cell [] actuals[]
-32 cell [] expecteds[]
-
-\ floating point stack
-variable start-fdepth
-32 float [] actuals.f[]
-32 float [] expecteds.f[]
+\ data stack            \ floating point stack
+variable start-depth    variable start-fdepth
+32 cell [] actuals[]    32 float [] actuals.f[]
+32 cell [] expecteds[]  32 float [] expecteds.f[]
 
 : restore-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
 : restore-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
@@ -39,7 +34,6 @@ variable start-fdepth
 
 : []. { a[] '@ '. } a[] []> { n s a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
 : (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
-
 : different$   expecteds[]   actuals[]   [']  @ [']  . (different$) ;
 : different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
 
@@ -48,7 +42,6 @@ variable start-fdepth
     ?lf# ." Wrong number of " s* s# type ." results, expected " #e .
     ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr lf ++
   then ;
-
 : #results$   expecteds[]   actuals[]   s" cell "  (#results$) ;
 : #results.f$ expecteds.f[] actuals.f[] s" float " (#results$) ;
 
