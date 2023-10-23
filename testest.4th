@@ -37,7 +37,7 @@ variable start-fdepth
 
 : passed$ ." Test Passed" cr ;
 
-: (different$) { e[] a[] 's '@ '. } e[] dup @ swap [0] a[] [0] { n e* a* }
+: (different$) { e[] a[] 's '@ '. } e[] []> a[] [0] { n _ e* a* }
   n dup if ?lf# ." Expected " 0 n -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 n -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr lf ++ then ;
 
 : different$   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
