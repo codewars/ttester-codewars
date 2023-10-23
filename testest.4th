@@ -38,10 +38,10 @@ variable start-fdepth
 : passed$ ." Test Passed" cr ;
 
 : []. { a[] '@ '. } a[] []> { #a s a* } a* #a 1- s * + 0 #a -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
-: (different$) { e[] a[] 's '@ '. } e[] []> a[] [0] { n s e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
+: (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
 
-: different$   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
-: different.f$ expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
+: different$   expecteds[]   actuals[]   [']  @ [']  . (different$) ;
+: different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
 
 : (#results$) { e[] a[] s* s# } e[] @ a[] @ { #e #a }
   #e #a - dup if
