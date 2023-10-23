@@ -33,11 +33,11 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 
 : passed$ ." Test Passed" cr ;
 
-: (different$) { r* e* a* 's '@ '. }
-  r* @ dup if ?lf# ." Expected " 0 r* @ -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 r* @ -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr lf ++ then ;
+: (different$) { n e* a* 's '@ '. }
+  n dup if ?lf# ." Expected " 0 n -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 n -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr lf ++ then ;
 
-: different$   #expecteds   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
-: different.f$ #expecteds.f expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
+: different$   #expecteds   @ expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
+: different.f$ #expecteds.f @ expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
 
 : (#results$) { #e #a s* s# }
   #e #a - dup if
