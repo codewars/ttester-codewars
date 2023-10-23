@@ -60,9 +60,9 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
-: store-results { a[] '! '0 } a[] []> { n s *p }
+: store-results { a[] '! '0 } a[] []> { n s a* }
    n 0 >= if
-     *p n 0 +do { *p } *p '! ^ *p s + loop drop
+     a* n 0 +do { a* } a* '! ^ a* s + loop drop
    else \ underflow
      n negate -1 +do '0 ^ loop
    then ;
