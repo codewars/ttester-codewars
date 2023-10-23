@@ -18,6 +18,9 @@ decimal
 variable lf lf 0!
 : ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
+: [] ( n element-size -- ) create 2dup swap , , * allot maxalign ; \ not sure if maxalign is essential
+: []> ( [] -- n s &a[0] ) >r r@ @ r@ @ r> 2 cells + ;
+
 \ data stack
 variable start-depth
 variable #actuals   create actuals[]   32 cells allot
