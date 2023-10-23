@@ -62,7 +62,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 : #results.f fdepth start-fdepth @ - ;
 : <{ depth start-depth ! fdepth start-fdepth ! lf 0! ;
 
-: store-results { a[] '! '0 } a[] []> { n s a* }
+: store-stack { a[] '! '0 } a[] []> { n s a* }
    n 0 >= if
      a* n 0 +do { a* } a* '! ^ a* s + loop drop
    else \ underflow
@@ -72,7 +72,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 : _0 0 ;
 : _0e 0e ;
 
-: store-stacks { c[] f[] } c[] ['] ! ['] _0 store-results f[] ['] f! ['] _0e store-results ;
+: store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
 
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks ;
 
