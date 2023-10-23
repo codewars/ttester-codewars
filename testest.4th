@@ -43,14 +43,14 @@ variable start-fdepth
 : different$   expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
 : different.f$ expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
 
-: (#results$) { #e #a s* s# }
+: (#results$) { e[] a[] s* s# } e[] @ a[] @ { #e #a }
   #e #a - dup if
     ?lf# ." Wrong number of " s* s# type ." results, expected " #e .
     ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr lf ++
   then ;
 
-: #results$   expecteds[]   @ actuals[]   @ s" cell "  (#results$) ;
-: #results.f$ expecteds.f[] @ actuals.f[] @ s" float " (#results$) ;
+: #results$   expecteds[]   actuals[]   s" cell "  (#results$) ;
+: #results.f$ expecteds.f[] actuals.f[] s" float " (#results$) ;
 
 variable ^passed$      ' passed$      ^passed$ !
 variable ^different$   ' different$   ^different$ !
