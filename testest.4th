@@ -84,8 +84,8 @@ fvariable epsilon
 : rel<> epsilon f@ f~rel 0= ;
 : abs<> epsilon f@ f~abs 0= ;
 
-: compare   { e* a* d -- d' }  e*  @ a*  @  <> d + ;
-: compare.f { e* a* d -- d' }  e* f@ a* f@ ^f<> @ ^ d + ;
+: compare   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
+: compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
 
 : compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s e* #a _ a* } ( #p #f #r -- #p' #f' #r' )
   #e #a = if
