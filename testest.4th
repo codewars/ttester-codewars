@@ -18,18 +18,19 @@ decimal
 variable lf lf 0!
 : ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
-: [] ( n element-size -- ) create 2dup swap , , * allot maxalign ; \ not sure if maxalign is essential
-: []> ( [] -- n s &a[0] ) >r r@ @ r@ @ r> 2 cells + ;
+: [] ( n element-size -- ) create 2dup swap 0 , , , * allot maxalign ; \ not sure if maxalign is essential
+: [0] ( [] -- &a[0] ) 3 cells + ;
+: []> ( [] -- n capacity s &a[0] ) >r r@ @ r@ @ r@ @ r> [0] ;
 
 \ data stack
 variable start-depth
-variable #actuals   create actuals[]   32 cells allot
-variable #expecteds create expecteds[] 32 cells allot
+32 cell [] actuals[]
+32 cell [] expecteds[]
 
 \ floating point stack
 variable start-fdepth
-variable #actuals.f   create actuals.f[]   32 floats allot
-variable #expecteds.f create expecteds.f[] 32 floats allot
+32 float [] actuals.f[]
+32 float [] expecteds.f[]
 
 : restore-stack ( -- ... ) depth {  d }  start-depth @  d +do  0 loop  d  start-depth @ +do  drop loop ;
 : restore-fstack ( -- )   fdepth { fd } start-fdepth @ fd +do 0e loop fd start-fdepth @ +do fdrop loop ;
@@ -39,8 +40,8 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
 : (different$) { n e* a* 's '@ '. }
   n dup if ?lf# ." Expected " 0 n -do e* i 1- 's ^ + '@ ^ '. ^ 1 -loop ." , got " 0 n -do a* i 1- 's ^ + '@ ^ '. ^ 1 -loop  cr lf ++ then ;
 
-: different$   #expecteds   @ expecteds[]   actuals[]   ['] cells  [']  @ [']  . (different$) ;
-: different.f$ #expecteds.f @ expecteds.f[] actuals.f[] ['] floats ['] f@ ['] f. (different$) ;
+: different$   expecteds[]   @ expecteds[]   [0] actuals[]   [0] ['] cells  [']  @ [']  . (different$) ;
+: different.f$ expecteds.f[] @ expecteds.f[] [0] actuals.f[] [0] ['] floats ['] f@ ['] f. (different$) ;
 
 : (#results$) { #e #a s* s# }
   #e #a - dup if
@@ -48,8 +49,8 @@ variable #expecteds.f create expecteds.f[] 32 floats allot
     ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr lf ++
   then ;
 
-: #results$   #expecteds   @ #actuals   @ s" cell "  (#results$) ;
-: #results.f$ #expecteds.f @ #actuals.f @ s" float " (#results$) ;
+: #results$   expecteds[]   @ actuals[]   @ s" cell "  (#results$) ;
+: #results.f$ expecteds.f[] @ actuals.f[] @ s" float " (#results$) ;
 
 variable ^passed$      ' passed$      ^passed$ !
 variable ^different$   ' different$   ^different$ !
@@ -71,7 +72,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 : store-stacks { #c c* #f f* } #c c* cell ['] ! ['] _0 store-results #f f* float ['] f! ['] _0e store-results ;
 
-: -> depth start-depth @ - dup #actuals ! actuals[] fdepth start-fdepth @ - dup #actuals.f ! actuals.f[] store-stacks ;
+: -> depth start-depth @ - dup actuals[] ! actuals[] [0] fdepth start-fdepth @ - dup actuals.f[] ! actuals.f[] [0] store-stacks ;
 
 variable ^f<>
 : F<>: ' ^f<> ! ;
@@ -93,10 +94,10 @@ fvariable epsilon
   else 1+ then ;
 
 : }>
-  depth start-depth @ - dup #expecteds ! expecteds[] fdepth start-fdepth @ - dup #expecteds.f ! expecteds.f[] store-stacks
+  depth start-depth @ - dup expecteds[] ! expecteds[] [0] fdepth start-fdepth @ - dup expecteds.f[] ! expecteds.f[] [0] store-stacks
   restore-stack restore-fstack
-   0 0 0 #expecteds   @ expecteds[]   #actuals   @ actuals[]   cell  ['] compare   compare-results { #p #f #r } \ compare cells
-  #p 0 0 #expecteds.f @ expecteds.f[] #actuals.f @ actuals.f[] float ['] compare.f compare-results { #p #ff #rf } \ compare floats
+   0 0 0 expecteds[]   @ expecteds[]   [0] actuals[]   @ actuals[]   [0] cell  ['] compare   compare-results { #p #f #r } \ compare cells
+  #p 0 0 expecteds.f[] @ expecteds.f[] [0] actuals.f[] @ actuals.f[] [0] float ['] compare.f compare-results { #p #ff #rf } \ compare floats
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
   else #p 2 = if passed# ^passed$ @ ^ then then ;
 
