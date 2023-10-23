@@ -30,7 +30,7 @@ variable lf lf 0!
 : []. { a[] '@ '. } a[] []> { n s a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
 
 \ data stack            \ floating point stack
-variable sp%    variable fp%
+variable sp%            variable fp%
 32 cell [] actuals[]    32 float [] actuals.f[]
 32 cell [] expecteds[]  32 float [] expecteds.f[]
 
