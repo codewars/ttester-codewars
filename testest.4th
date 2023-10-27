@@ -55,10 +55,10 @@ F<>: f<>
 : compare   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
 : compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
 : compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s ec e* #a _ ac a* } ( #p #f #r -- #p' #f' #r' )
-  #e #a = if #e 0 >= if
+  #e #a = #e 0 >= and if
     0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
     if >r 1+ r> else rot 1+ -rot then
-  then else 1+ then ;
+  else 1+ then ;
 
 \ default reporting
 
