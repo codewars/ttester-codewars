@@ -19,8 +19,8 @@ decimal
 \ reporting helpers
 
 variable lf
-: failed# ( -- ) cr lf 0! ." <FAILED::>" ;
-: passed# ( -- ) cr lf 0! ." <PASSED::>" ;
+: failed# ( -- ) cr ." <FAILED::>" lf 0! ;
+: passed# ( -- ) cr ." <PASSED::>" lf 0! ;
 : ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
 \ generic arrays
@@ -99,7 +99,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
   #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
   else #p 2 = if passed# ^passed$ @ ^ then then reset-stacks ;
 
-\ utility words
+\ testest utility words
 
 3037000493 constant #m \ prime number < sqrt (2^63-1)
 53 constant #p         \ prime number
