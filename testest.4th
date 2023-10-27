@@ -28,7 +28,7 @@ variable lf lf 0!
 : [] ( n element-size -- ) create 2dup 0 , , , * allot maxalign ; \ not sure if maxalign is essential
 : [0] ( [] -- &a[0] ) 3 cells + ;
 : []> ( [] -- n s c &a[0] ) @+ @+ @+ ;
-: []. { a[] '@ '. } a[] []> { n s c a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
+: []. { a[] '@ '. } a[] []> { n s c a* } n c <= if a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop then ;
 
 \ data stack            \ floating point stack
 variable sp%            variable fp%
