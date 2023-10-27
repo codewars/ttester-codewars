@@ -55,7 +55,7 @@ F<>: f<>
 : compare   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
 : compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
 : compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s ec e* #a _ ac a* } ( #p #f #r -- #p' #f' #r' )
-  #e #a = #e 0 >= and if
+  #e #a = #e 0 >= #e ec <= and and if
     0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
     if >r 1+ r> else rot 1+ -rot then
   else 1+ then ;
@@ -66,7 +66,9 @@ F<>: f<>
 : (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s c e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
 : different$   expecteds[]   actuals[]   [']  @ [']  . (different$) ;
 : different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
-: (#results$) { e[] a[] s* s# } e[] @ a[] @ { #e #a }
+: (#results$) { e[] a[] s* s# } e[] []> a[] []> { #e es ec e* #a as ac a* }
+  #a ac > if ?lf# ." Too many " s* s# type ."  results to test" cr lf ++ exit then
+  #e ec > if ?lf# ." Too many expected " s* s# type ."  results to test" cr lf ++ exit then
   #e #a - dup if
     ?lf# ." Wrong number of " s* s# type ."  results, expected " #e .
     ." , got " #a dup 0< if negate ." a " . s* s# type ."  stack underflow" else . then cr lf ++
