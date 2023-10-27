@@ -68,11 +68,11 @@ F<>: f<>
 : different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
 : (#results$) { e[] a[] s* s# } e[] @ a[] @ { #e #a }
   #e #a - dup if
-    ?lf# ." Wrong number of " s* s# type ." results, expected " #e .
-    ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr lf ++
+    ?lf# ." Wrong number of " s* s# type ."  results, expected " #e .
+    ." , got " #a dup 0< if negate ." a " . s* s# type ."  stack underflow" else . then cr lf ++
   else drop then ;
-: #results$   expecteds[]   actuals[]   s" cell "  (#results$) ;
-: #results.f$ expecteds.f[] actuals.f[] s" float " (#results$) ;
+: #results$   expecteds[]   actuals[]   s" cell"  (#results$) ;
+: #results.f$ expecteds.f[] actuals.f[] s" float" (#results$) ;
 
 \ custom reporting
 
