@@ -70,7 +70,7 @@ F<>: f<>
   #e #a - dup if
     ?lf# ." Wrong number of " s* s# type ." results, expected " #e .
     ." , got " #a dup 0< if negate ." a " . s* s# type ." stack underflow" else . then cr lf ++
-  then ;
+  else drop then ;
 : #results$   expecteds[]   actuals[]   s" cell "  (#results$) ;
 : #results.f$ expecteds.f[] actuals.f[] s" float " (#results$) ;
 
