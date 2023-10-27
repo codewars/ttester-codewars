@@ -55,8 +55,8 @@ if (verbose):
     else:
         print ("{0} out of {1} tests failed".format (failed, failed+passed))
     # load test framework and let gforth show any warnings or errors
-    print ("GForth compiler errors/warnings on test framework:\n--")
-    print (os.popen ("bash -c 'gforth ../testest.4th -e bye' >&2").readlines ())
+    print ("GForth compiler errors/warnings/ramblings on test framework:\n--")
+    print (os.popen ("bash -c 'gforth ../testest.4th -e \".\\\" <EOF>\\\" cr bye\"' >&2").readlines ())
     print ("--")
 
 # restore directory
