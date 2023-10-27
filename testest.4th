@@ -18,9 +18,9 @@ decimal
 
 \ reporting helpers
 
-: failed# ( -- ) cr ." <FAILED::>" ;
-: passed# ( -- ) cr ." <PASSED::>" ;
-variable lf lf 0!
+variable lf
+: failed# ( -- ) cr lf 0! ." <FAILED::>" ;
+: passed# ( -- ) cr lf 0! ." <PASSED::>" ;
 : ?lf# ( -- ) lf @ if ." <:LF:>" then lf 0! ;
 
 \ generic arrays
@@ -90,7 +90,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 \ testest unit test
 
-: <{ mark-stacks lf 0! ;
+: <{ mark-stacks ;
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks reset-stacks ;
 : }>
   #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stacks
