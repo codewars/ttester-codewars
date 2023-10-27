@@ -41,6 +41,7 @@ variable sp%            variable fp%
   n 0 >= if n c <= if a* n 0 +do { a* } a* '! ^ a* s + loop drop then else n negate -1 +do '0 ^ loop then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
+: mark-stacks ( -- ) sp@ sp% ! fp@ fp% ! ;
 : reset-stacks ( -- ... ) sp% @ sp! fp% @ fp! ;
 
 \ support for custom, exact, and inexact floating point comparisons
@@ -89,7 +90,7 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 
 \ testest unit test
 
-: <{ sp@ sp% ! fp@ fp% ! lf 0! ;
+: <{ mark-stacks lf 0! ;
 : -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks reset-stacks ;
 : }>
   #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stacks
