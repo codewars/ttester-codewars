@@ -14,6 +14,7 @@ decimal
 : ?@^ ( ? addr -- ) swap if @ ^ else drop then ;
 : ++ ( addr -- ) 1 swap +! ;
 : 0! ( addr -- ) 0 swap ! ;
+: @+ ( addr -- @ addr++ ) dup @ swap cell+ ;
 
 \ reporting helpers
 
@@ -26,8 +27,8 @@ variable lf lf 0!
 
 : [] ( n element-size -- ) create 2dup 0 , , , * allot maxalign ; \ not sure if maxalign is essential
 : [0] ( [] -- &a[0] ) 3 cells + ;
-: []> ( [] -- n s &a[0] ) >r r@ @ r@ cell+ @ r> [0] ;
-: []. { a[] '@ '. } a[] []> { n s a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
+: []> ( [] -- n s c &a[0] ) @+ @+ @+ ;
+: []. { a[] '@ '. } a[] []> { n s c a* } a* n 1- s * + 0 n -do { a* } a* '@ ^ '. ^ a* s - 1 -loop drop ;
 
 \ data stack            \ floating point stack
 variable sp%            variable fp%
@@ -36,7 +37,7 @@ variable sp%            variable fp%
 
 \ stack helpers
 
-: store-stack { a[] '! '0 } a[] []> { n s a* }
+: store-stack { a[] '! '0 } a[] []> { n s c a* }
   n 0 >= if a* n 0 +do { a* } a* '! ^ a* s + loop drop else n negate -1 +do '0 ^ loop then ;
 : _0 0 ; : _0e 0e ;
 : store-stacks { c[] f[] } c[] ['] ! ['] _0 store-stack f[] ['] f! ['] _0e store-stack ;
@@ -53,7 +54,7 @@ F<>: f<>
 
 : compare   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
 : compare.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
-: compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s e* #a _ a* } ( #p #f #r -- #p' #f' #r' )
+: compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s ec e* #a _ ac a* } ( #p #f #r -- #p' #f' #r' )
   #e #a = if #e 0 >= if
     0 e* a* #e 0 +do { d e* a* } e* a* d 'cmp ^ e* s + a* s + loop 2drop
     if >r 1+ r> else rot 1+ -rot then
@@ -62,7 +63,7 @@ F<>: f<>
 \ default reporting
 
 : passed$ ." Test Passed" cr ;
-: (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
+: (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s c e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
 : different$   expecteds[]   actuals[]   [']  @ [']  . (different$) ;
 : different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
 : (#results$) { e[] a[] s* s# } e[] @ a[] @ { #e #a }
