@@ -1,6 +1,9 @@
 \ "Testest" Forth Test Framework for Codewars
 \ Copyright 2018-2023 nomennescio
 decimal
+vocabulary testest
+vocabulary usercode
+also testest definitions
 
 : #ms ( dmicroseconds -- c-addr len ) <# # # # [char] . hold #s #> ;
 
@@ -105,3 +108,5 @@ variable ^#results.f$  ' #results.f$  ^#results.f$ !
 53 constant #p         \ prime number
 : c# { hash pow c -- hash' pow' } c pow * hash + #m mod pow #p * #m mod ;       \ polynomial rolling hash function, single char
 : s# { c-addr len -- hash } 0 1 c-addr len 0 +do { s } s c@ c# s char+ loop 2drop ; \ string hash
+
+usercode definitions
