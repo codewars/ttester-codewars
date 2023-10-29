@@ -53,8 +53,8 @@ variable ^f<>
 : F<>: ' ^f<> ! ;
 F<>: f<>
 
-: compare-result   { e* a* d -- d' } e*  @ a*  @   <>     d + ;
-: compare-result.f { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
+: compare-result  { e* a* d -- d' } e*  @ a*  @   <>     d + ;
+: fcompare-result { e* a* d -- d' } e* f@ a* f@ ^f<> @ ^ d + ;
 : compare-results { e[] a[] 'cmp } e[] []> a[] []> { #e s ec e* #a _ ac a* } ( #p #f #r -- #p' #f' #r' )
   #e #a = #e 0 >= #e ec <= and and if
     0 e* a* #e 0 +do { d p* q* } p* q* d 'cmp ^ p* s + q* s + loop 2drop
@@ -63,41 +63,41 @@ F<>: f<>
 
 \ default reporting
 
-: passed$ ." Test Passed" cr ;
-: (different$) { e[] a[] '@ '. } e[] []> a[] [0] { n s c e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
-: different$   expecteds[]   actuals[]   [']  @ [']  . (different$) ;
-: different.f$ expecteds.f[] actuals.f[] ['] f@ ['] f. (different$) ;
-: (#results$) { e[] a[] s* s# } e[] []> a[] []> { #e es ec e* #a as ac a* }
+: passed. ." Test Passed" cr ;
+: (different.) { e[] a[] '@ '. } e[] []> a[] [0] { n s c e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
+: different.  expecteds[]   actuals[]   [']  @ [']  . (different.) ;
+: fdifferent. expecteds.f[] actuals.f[] ['] f@ ['] f. (different.) ;
+: (#results.) { e[] a[] s* s# } e[] []> a[] []> { #e es ec e* #a as ac a* }
   #a ac > if ?lf# ." Too many " s* s# type ."  results to test" cr lf ++ exit then
   #e ec > if ?lf# ." Too many expected " s* s# type ."  results to test" cr lf ++ exit then
   #e #a - dup if
     ?lf# ." Wrong number of " s* s# type ."  results, expected " #e .
     ." , got " #a dup 0< if negate ." a " . s* s# type ."  stack underflow" else . then cr lf ++
   else drop then ;
-: #results$   expecteds[]   actuals[]   s" cell"  (#results$) ;
-: #results.f$ expecteds.f[] actuals.f[] s" float" (#results$) ;
+: #results.  expecteds[]   actuals[]   s" cell"  (#results.) ;
+: #fresults. expecteds.f[] actuals.f[] s" float" (#results.) ;
 
 \ custom reporting
 
-variable ^passed$      ' passed$      ^passed$ !
-variable ^different$   ' different$   ^different$ !
-variable ^different.f$ ' different.f$ ^different.f$ !
-variable ^#results$    ' #results$    ^#results$ !
-variable ^#results.f$  ' #results.f$  ^#results.f$ !
+variable ^passed.     ' passed.     ^passed.     !
+variable ^different.  ' different.  ^different.  !
+variable ^fdifferent. ' fdifferent. ^fdifferent. !
+variable ^#results.   ' #results.   ^#results.   !
+variable ^#fresults.  ' #fresults.  ^#fresults.  !
 
-: #results   sp@ sp% @ swap - cell / ;
-: #results.f fp% @ fp@ - float / ;
+: #results  sp@ sp% @ swap - cell / ;
+: #fresults fp% @ fp@ - float / ;
 
 \ testest unit test
 
 : <{ mark-stacks ;
-: -> #results actuals[] tuck ! #results.f actuals.f[] tuck ! store-stacks reset-stacks ;
+: -> #results actuals[] tuck ! #fresults actuals.f[] tuck ! store-stacks reset-stacks ;
 : }>
-  #results expecteds[] tuck ! #results.f expecteds.f[] tuck ! store-stacks reset-stacks
-   0 0 0 expecteds[]   actuals[]   ['] compare-result   compare-results { #p  #f  #r  } \ compare cells
-  #p 0 0 expecteds.f[] actuals.f[] ['] compare-result.f compare-results { #pt #ff #rf } \ compare floats
-  #r #rf + #f #ff + + if failed# #r ^#results$ ?@^ #rf ^#results.f$ ?@^ #f ^different$ ?@^ #ff ^different.f$ ?@^
-  else #pt 2 = if passed# ^passed$ @ ^ then then reset-stacks ;
+  #results expecteds[] tuck ! #fresults expecteds.f[] tuck ! store-stacks reset-stacks
+   0 0 0 expecteds[]   actuals[]   [']  compare-result compare-results { #p  #f  #r  } \ compare cells
+  #p 0 0 expecteds.f[] actuals.f[] ['] fcompare-result compare-results { #pt #ff #rf } \ compare floats
+  #r #rf + #f #ff + + if failed# #r ^#results. ?@^ #rf ^#fresults. ?@^ #f ^different. ?@^ #ff ^fdifferent. ?@^
+  else #pt 2 = if passed# ^passed. @ ^ then then reset-stacks ;
 
 \ testest utility words
 
