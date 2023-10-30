@@ -63,18 +63,18 @@ F<>: f<>
 
 \ default reporting
 
-: passed. ." Test Passed" cr ;
-: (different.) { e[] a[] '@ '. } e[] []> a[] [0] { n s c e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. cr lf ++ then ;
+: passed. ." Test Passed" ;
+: (different.) { e[] a[] '@ '. } e[] []> a[] [0] { n s c e* a* } n if ?lf# ." Expected " e[] '@ '. []. ." , got " a[] '@ '. []. lf ++ then ;
 : different.  expecteds[]   actuals[]   [']  @ [']  . (different.) ;
 : fdifferent. expecteds.f[] actuals.f[] ['] f@ ['] f. (different.) ;
 : (#results.) { e[] a[] s* s# } e[] []> a[] []> { #e es ec e* #a as ac a* }
-  #a ac > if ?lf# ." Too many " s* s# type ."  results to test" cr lf ++ exit then
-  #e ec > if ?lf# ." Too many expected " s* s# type ."  results to test" cr lf ++ exit then
+  #a ac > if ?lf# ." Too many " s* s# type ."  results to test" lf ++ exit then
+  #e ec > if ?lf# ." Too many expected " s* s# type ."  results to test" lf ++ exit then
   #e #a - dup if
     ?lf# ." Wrong number of " s* s# type ."  results, expected " #e .
-    ." , got " #a dup 0< if negate ." a " . s* s# type ."  stack underflow" else . then cr lf ++
+    ." , got " #a dup 0< if negate ." a " . s* s# type ."  stack underflow" else . then lf ++
   else drop then ;
-: #results.  expecteds[]   actuals[]   s" cell"  (#results.) ;
+: #results.  expecteds[]   actuals[]   s" cell "  (#results.) ;
 : #fresults. expecteds.f[] actuals.f[] s" float" (#results.) ;
 
 \ custom reporting
@@ -96,8 +96,8 @@ variable ^#fresults.  ' #fresults.  ^#fresults.  !
   #results expecteds[] tuck ! #fresults expecteds.f[] tuck ! store-stacks reset-stacks
    0 0 0 expecteds[]   actuals[]   [']  compare-result compare-results { #p  #f  #r  } \ compare cells
   #p 0 0 expecteds.f[] actuals.f[] ['] fcompare-result compare-results { #pt #ff #rf } \ compare floats
-  #r #rf + #f #ff + + if failed# #r ^#results. ?@^ #rf ^#fresults. ?@^ #f ^different. ?@^ #ff ^fdifferent. ?@^
-  else #pt 2 = if passed# ^passed. @ ^ then then reset-stacks ;
+  #r #rf + #f #ff + + if failed# #r ^#results. ?@^ #rf ^#fresults. ?@^ #f ^different. ?@^ #ff ^fdifferent. ?@^ cr
+  else #pt 2 = if passed# ^passed. @ ^ cr then then reset-stacks ;
 
 \ testest utility words
 

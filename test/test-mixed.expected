@@ -9,45 +9,40 @@
 
 <PASSED::>Test Passed
 
-<FAILED::>Wrong number of cell results, expected 1 , got 2 
+<FAILED::>Wrong number of cell  results, expected 1 , got 2 
 
 <FAILED::>Wrong number of float results, expected 1 , got 2 
 
-<FAILED::>Wrong number of cell results, expected 2 , got 3 
+<FAILED::>Wrong number of cell  results, expected 2 , got 3 
 
 <FAILED::>Wrong number of float results, expected 1 , got 2 
 
-<FAILED::>Wrong number of cell results, expected 2 , got 3 
+<FAILED::>Wrong number of cell  results, expected 2 , got 3 
 
 <FAILED::>Wrong number of float results, expected 1 , got 2 
 
-<FAILED::>Wrong number of cell results, expected 3 , got 4 
+<FAILED::>Wrong number of cell  results, expected 3 , got 4 
 
 <FAILED::>Wrong number of float results, expected 3 , got 4 
 
-<FAILED::>Wrong number of cell results, expected 3 , got 4 
+<FAILED::>Wrong number of cell  results, expected 3 , got 4 
 
 <FAILED::>Wrong number of float results, expected 3 , got 4 
 
-<FAILED::>Wrong number of cell results, expected 1 , got 2 
-<:LF:>Wrong number of float results, expected 1 , got 2 
+<FAILED::>Wrong number of cell  results, expected 1 , got 2 <:LF:>Wrong number of float results, expected 1 , got 2 
 
-<FAILED::>Wrong number of cell results, expected 1 , got 2 
-<:LF:>Wrong number of float results, expected 1 , got 2 
+<FAILED::>Wrong number of cell  results, expected 1 , got 2 <:LF:>Wrong number of float results, expected 1 , got 2 
 
-<FAILED::>Wrong number of cell results, expected 1 , got 2 
-<:LF:>Wrong number of float results, expected 1 , got 2 
+<FAILED::>Wrong number of cell  results, expected 1 , got 2 <:LF:>Wrong number of float results, expected 1 , got 2 
 
 <FAILED::>Expected 2 , got 1 
 
 <FAILED::>Expected 1. , got 2. 
 
-<FAILED::>Expected 2 , got 1 
-<:LF:>Expected 1. , got 2. 
+<FAILED::>Expected 2 , got 1 <:LF:>Expected 1. , got 2. 
 
 <FAILED::>Expected 4 5 6 , got 1 2 3 
 
 <FAILED::>Expected 1. 2. 3. , got 4. 5. 6. 
 
-<FAILED::>Expected 4 5 6 , got 1 2 3 
-<:LF:>Expected 1. 2. 3. , got 4. 5. 6. 
+<FAILED::>Expected 4 5 6 , got 1 2 3 <:LF:>Expected 1. 2. 3. , got 4. 5. 6. 

@@ -2,8 +2,8 @@
 
 s" custom messages" describe#{
 
-  :noname ." Just passed" cr ; ^passed. !
-  :noname ." Just failed" cr ; ^different. !
+  :noname ." Just passed" ; ^passed. !
+  :noname ." Just failed" ; ^different. !
 
   s" short strings" it#{
     <{ s" Hello World!" s# -> s" Hello World!" s# }>
@@ -17,8 +17,8 @@ s" custom messages" describe#{
   2variable actual$
   2variable expected$
 
-  :noname ." Got '" actual$ 2@ type ." ' as expected" cr ; ^passed. !
-  :noname ." Expected '" expected$ 2@ type ." ', got '" actual$ 2@ type ." '" cr ; ^different. !
+  :noname ." Got '" actual$ 2@ type ." ' as expected" ; ^passed. !
+  :noname ." Expected '" expected$ 2@ type ." ', got '" actual$ 2@ type ." '" ; ^different. !
 
   : &actual 2dup actual$ 2! ;
   : &expected 2dup expected$ 2! ;
